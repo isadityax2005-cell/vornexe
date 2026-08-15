@@ -1,0 +1,33 @@
+{
+  "products": [
+    {
+      "id": "8f8e0fd1-6ac7-431b-a6f9-afc38a4651c5",
+      "name": "Tshirt",
+      "description": "Good piece Excellent condition.",
+      "price": 250,
+      "size": "M",
+      "isSoldOut": true,
+      "imageUrl": "http://localhost:3000/uploads/165b61d9-621a-405b-8457-fce77b9d28f7.jpg",
+      "createdAt": "2026-08-15T12:18:35.100Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": "21f21274-7b6f-4600-b823-c06d4447c665",
+      "productId": "8f8e0fd1-6ac7-431b-a6f9-afc38a4651c5",
+      "shippingDetails": {
+        "fullName": "Aditya Singh",
+        "email": "isadityax2005@gmail.com",
+        "phone": "7600939217",
+        "address": "401/A, Sonam Palace, Old Golden Nest Phase 1, Mira Road (E), Thane-401107",
+        "city": "Bhayandar",
+        "state": "Maharashtra ",
+        "pinCode": "401107"
+      },
+      "paymentMethod": "UPI",
+      "transactionId": "isadityax2005@okicici",
+      "status": "Pending Verification",
+      "createdAt": "2026-08-15T12:34:27.375Z"
+    }
+  ]
+}

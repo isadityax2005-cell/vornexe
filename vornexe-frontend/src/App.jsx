@@ -1,0 +1,50 @@
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Home from './pages/Home';
+import Shop from './pages/Shop';
+import ProductDetail from './pages/ProductDetail';
+import Checkout from './pages/Checkout';
+import AdminLayout from './components/admin/AdminLayout';
+import AdminLogin from './pages/admin/AdminLogin';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminProducts from './pages/admin/AdminProducts';
+import AdminOrders from './pages/admin/AdminOrders';
+import useAdminAuth from './hooks/useAdminAuth';
+
+// Protected Route Wrapper for Admin
+const ProtectedAdminRoute = ({ children }) => {
+  const { isAuthenticated, loading } = useAdminAuth();
+  if (loading) return <div style={{height: '100vh', background: '#050505'}}></div>;
+  if (!isAuthenticated) return <Navigate to="/admin/login" replace />;
+  return children;
+};
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/shop" element={<Shop />} />
+        <Route path="/shop/:id" element={<ProductDetail />} />
+        <Route path="/checkout/:id" element={<Checkout />} />
+        
+        {/* Admin Routes */}
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route 
+          path="/admin" 
+          element={
+            <ProtectedAdminRoute>
+              <AdminLayout />
+            </ProtectedAdminRoute>
+          }
+        >
+          <Route index element={<AdminDashboard />} />
+          <Route path="products" element={<AdminProducts />} />
+          <Route path="orders" element={<AdminOrders />} />
+        </Route>
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;

@@ -1,0 +1,64 @@
+import { useState, useEffect } from 'react';
+
+const API_URL = 'http://localhost:3000/api/products';
+
+const useProducts = () => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetchProducts = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch(API_URL);
+      if (!res.ok) throw new Error('Failed to fetch archive');
+      const data = await res.json();
+      setProducts(data);
+      setError(null);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const addProduct = async (formDataObj) => {
+    try {
+      const data = new FormData();
+      data.append('name', formDataObj.name);
+      data.append('description', formDataObj.description);
+      data.append('price', formDataObj.price);
+      data.append('size', formDataObj.size);
+      data.append('isSoldOut', formDataObj.isSoldOut);
+      if (formDataObj.imageFile) {
+        data.append('image', formDataObj.imageFile);
+      }
+
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        body: data
+      });
+      
+      if (!res.ok) throw new Error('Failed to add product');
+      await fetchProducts(); // Refresh list
+      return { success: true };
+    } catch (err) {
+      console.error(err);
+      return { success: false, error: err.message };
+    }
+  };
+
+  return {
+    products,
+    loading,
+    error,
+    addProduct,
+    refresh: fetchProducts
+  };
+};
+
+export default useProducts;
