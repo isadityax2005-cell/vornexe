@@ -32,7 +32,7 @@ const HeroSection = () => {
         <Link to="/foundation">FOUNDATION</Link>
         <Link to="/terms">TERMS</Link>
         <Link to="/privacy">PRIVACY POLICY</Link>
-        <Link to="/cookie">COOKIE POLICY</Link>
+        <Link to="/about">ABOUT US</Link>
       </div>
     </section>
   );
