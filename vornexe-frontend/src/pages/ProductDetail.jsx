@@ -15,7 +15,8 @@ const ProductDetail = () => {
     const fetchProduct = async () => {
       try {
         setLoading(true);
-        const res = await fetch('http://localhost:3000/api/products');
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+        const res = await fetch(`${apiUrl}/api/products`);
         if (!res.ok) throw new Error('Failed to fetch product');
         const data = await res.json();
         const found = data.find(p => p.id === id);
