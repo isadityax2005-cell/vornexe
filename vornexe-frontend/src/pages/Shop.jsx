@@ -32,7 +32,7 @@ const Shop = () => {
                     <h3>{product.name}</h3>
                     <div className="product-meta">
                       <span className="product-size">Size {product.size}</span>
-                      <span className="product-price">${product.price}</span>
+                      <span className="product-price">₹{product.price}</span>
                     </div>
                   </div>
                 </div>

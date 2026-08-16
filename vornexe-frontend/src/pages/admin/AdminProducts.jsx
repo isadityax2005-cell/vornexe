@@ -59,7 +59,7 @@ const AdminProducts = () => {
               <img src={product.imageUrl} alt={product.name} style={{ width: '60px', height: '60px', objectFit: 'cover' }} />
               <div style={{ flex: 1 }}>
                 <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.5rem', lineHeight: 1 }}>{product.name}</h3>
-                <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Size: {product.size} | Price: ${product.price}</span>
+                <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Size: {product.size} | Price: ₹{product.price}</span>
               </div>
               <div style={{ 
                 padding: '0.25rem 0.75rem', 

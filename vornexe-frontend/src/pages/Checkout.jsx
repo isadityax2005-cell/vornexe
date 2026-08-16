@@ -18,14 +18,13 @@ const Checkout = () => {
     address: '',
     city: '',
     state: '',
-    pinCode: '',
-    transactionId: '' // For UPI
+    pinCode: ''
   });
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await fetch('http://localhost:3000/api/products');
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/products`);
         const data = await res.json();
         const found = data.find(p => p.id === id);
         if (found && !found.isSoldOut) {
@@ -46,38 +45,97 @@ const Checkout = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
-    try {
-      const res = await fetch('http://localhost:3000/api/orders', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          productId: product.id,
-          shippingDetails: {
-            fullName: formData.fullName,
-            email: formData.email,
-            phone: formData.phone,
-            address: formData.address,
-            city: formData.city,
-            state: formData.state,
-            pinCode: formData.pinCode
-          },
-          paymentMethod: 'UPI',
-          transactionId: formData.transactionId
-        })
-      });
 
-      if (!res.ok) throw new Error('Failed to process order');
-      
-      // On success, redirect to home or a success page
-      alert("Order placed successfully! We will verify your UPI payment.");
-      navigate('/shop');
+    const isScriptLoaded = await loadRazorpayScript();
+    if (!isScriptLoaded) {
+      alert("Razorpay SDK failed to load. Are you online?");
+      setSubmitting(false);
+      return;
+    }
+
+    try {
+      // 1. Create order on backend
+      const orderRes = await fetch(`${import.meta.env.VITE_API_URL}/api/payment/create-order`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount: product.price })
+      });
+      const orderData = await orderRes.json();
+
+      if (!orderData || !orderData.id) throw new Error("Server error creating payment order");
+
+      // 2. Initialize Razorpay popup
+      const options = {
+        key: "rzp_test_TQOqNBDEZ6wovc", 
+        amount: orderData.amount,
+        currency: orderData.currency,
+        name: "VORNEXE ARCHIVE",
+        description: product.name,
+        order_id: orderData.id,
+        handler: async function (response) {
+          // 3. Send successful payment data to backend to verify and save order
+          try {
+            const verifyRes = await fetch(`${import.meta.env.VITE_API_URL}/api/orders`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                productId: product.id,
+                shippingDetails: {
+                  fullName: formData.fullName,
+                  email: formData.email,
+                  phone: formData.phone,
+                  address: formData.address,
+                  city: formData.city,
+                  state: formData.state,
+                  pinCode: formData.pinCode
+                },
+                paymentMethod: 'Razorpay',
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_signature: response.razorpay_signature
+              })
+            });
+
+            if (!verifyRes.ok) throw new Error("Payment verification failed");
+
+            alert("Payment Successful! Order placed.");
+            navigate('/shop');
+          } catch (err) {
+            alert(err.message);
+          }
+        },
+        prefill: {
+          name: formData.fullName,
+          email: formData.email,
+          contact: formData.phone
+        },
+        theme: {
+          color: "#0a0a0a"
+        }
+      };
+
+      const paymentObject = new window.Razorpay(options);
+      paymentObject.on('payment.failed', function (response){
+        alert("Payment failed! Please try again.");
+      });
+      paymentObject.open();
+
     } catch (err) {
-      alert(err.message);
+      alert("Checkout failed: " + err.message);
+    } finally {
       setSubmitting(false);
     }
   };
@@ -133,27 +191,15 @@ const Checkout = () => {
               </section>
 
               <section className="form-section payment-section">
-                <h2>3. PAYMENT (UPI)</h2>
+                <h2>3. PAYMENT</h2>
                 <div className="upi-instructions">
-                  <p>Please scan the QR code or send exactly <strong>${product.price}</strong> to the UPI ID below.</p>
-                  <div className="upi-details">
-                    <span className="upi-id">vornexe@upi</span>
-                  </div>
-                  <p className="upi-note">After paying, enter your 12-digit UPI Transaction ID below to verify your order.</p>
-                </div>
-                <div className="form-group">
-                  <input 
-                    type="text" 
-                    name="transactionId" 
-                    placeholder="ENTER UPI TRANSACTION ID" 
-                    required 
-                    onChange={handleChange} 
-                  />
+                  <p>You will be securely redirected to <strong>Razorpay</strong> to complete your payment.</p>
+                  <p style={{marginTop: '0.5rem', color: 'var(--text-secondary)'}}>We accept all major Credit/Debit Cards, UPI, and Netbanking.</p>
                 </div>
               </section>
 
               <button type="submit" className="place-order-btn" disabled={submitting}>
-                {submitting ? 'PROCESSING...' : 'PLACE ORDER'}
+                {submitting ? 'PROCESSING...' : 'PROCEED TO PAYMENT'}
               </button>
             </form>
           </div>
@@ -165,14 +211,14 @@ const Checkout = () => {
               <div className="summary-item-details">
                 <h3>{product.name}</h3>
                 <p>Size: {product.size}</p>
-                <p className="summary-price">${product.price}</p>
+                <p className="summary-price">₹{product.price}</p>
               </div>
             </div>
             
             <div className="summary-totals">
               <div className="total-row">
                 <span>SUBTOTAL</span>
-                <span>${product.price}</span>
+                <span>₹{product.price}</span>
               </div>
               <div className="total-row">
                 <span>SHIPPING</span>
@@ -180,7 +226,7 @@ const Checkout = () => {
               </div>
               <div className="total-row grand-total">
                 <span>TOTAL</span>
-                <span>${product.price}</span>
+                <span>₹{product.price}</span>
               </div>
             </div>
           </div>

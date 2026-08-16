@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react';
 
-// Mock hook for Claude to replace with actual authentication (e.g. JWT, Firebase, Supabase auth)
 const useAdminAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check localStorage for a dummy token to simulate logged-in state
+    // Check localStorage for the JWT token
     const token = localStorage.getItem('vornexe_admin_token');
-    if (token === 'valid_admin') {
+    if (token) {
       setIsAuthenticated(true);
     }
     setLoading(false);
@@ -16,15 +15,27 @@ const useAdminAuth = () => {
 
   const login = async (password) => {
     setLoading(true);
-    // Dummy check - Claude will replace with real API call
-    if (password === 'admin123') { // Placeholder password
-      localStorage.setItem('vornexe_admin_token', 'valid_admin');
-      setIsAuthenticated(true);
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem('vornexe_admin_token', data.token);
+        setIsAuthenticated(true);
+        setLoading(false);
+        return { success: true };
+      } else {
+        const data = await response.json();
+        setLoading(false);
+        return { success: false, error: data.error || 'Invalid password' };
+      }
+    } catch (error) {
       setLoading(false);
-      return { success: true };
-    } else {
-      setLoading(false);
-      return { success: false, error: 'Invalid password' };
+      return { success: false, error: 'Server error. Please try again.' };
     }
   };
 
@@ -33,11 +44,16 @@ const useAdminAuth = () => {
     setIsAuthenticated(false);
   };
 
+  const getToken = () => {
+    return localStorage.getItem('vornexe_admin_token');
+  };
+
   return {
     isAuthenticated,
     loading,
     login,
-    logout
+    logout,
+    getToken
   };
 };
 

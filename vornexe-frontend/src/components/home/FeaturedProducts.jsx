@@ -31,7 +31,7 @@ const FeaturedProducts = () => {
                 <h3>{product.name}</h3>
                 <div className="featured-meta">
                   <span>Size {product.size}</span>
-                  <span>${product.price}</span>
+                  <span>₹{product.price}</span>
                 </div>
               </div>
             </Link>

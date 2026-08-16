@@ -59,7 +59,7 @@ const ProductDetail = () => {
               <h1>{product.name}</h1>
               
               <div className="product-detail-meta">
-                <span className="detail-price">${product.price}</span>
+                <span className="detail-price">₹{product.price}</span>
                 <span className="detail-size">SIZE {product.size}</span>
               </div>
 
@@ -103,7 +103,7 @@ const ProductDetail = () => {
                     <img src={p.imageUrl} alt={p.name} />
                   </div>
                   <h3>{p.name}</h3>
-                  <p>${p.price} - Size {p.size}</p>
+                  <p>₹{p.price} - Size {p.size}</p>
                 </Link>
               ))}
             </div>

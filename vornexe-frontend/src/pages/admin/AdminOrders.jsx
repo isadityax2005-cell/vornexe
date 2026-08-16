@@ -7,7 +7,12 @@ const AdminOrders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await fetch('http://localhost:3000/api/orders');
+        const token = localStorage.getItem('vornexe_admin_token');
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/orders`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
         const data = await res.json();
         setOrders(data);
       } catch (err) {

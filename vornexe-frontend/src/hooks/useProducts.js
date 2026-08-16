@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const API_URL = 'http://localhost:3000/api/products';
+const API_URL = `${import.meta.env.VITE_API_URL}/api/products`;
 
 const useProducts = () => {
   const [products, setProducts] = useState([]);
@@ -38,8 +38,12 @@ const useProducts = () => {
         data.append('image', formDataObj.imageFile);
       }
 
+      const token = localStorage.getItem('vornexe_admin_token');
       const res = await fetch(API_URL, {
         method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
         body: data
       });
       
