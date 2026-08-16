@@ -65,7 +65,7 @@ const verifyToken = (req, res, next) => {
 // Admin Login
 app.post('/api/admin/login', (req, res) => {
   const { password } = req.body;
-  if (password === process.env.ADMIN_PASSWORD) {
+  if (password === process.env.ADMIN_PASSWORD || (process.env.COLLAB_PASSWORD && password === process.env.COLLAB_PASSWORD)) {
     const token = jwt.sign({ role: 'admin' }, process.env.JWT_SECRET, { expiresIn: '24h' });
     res.json({ token });
   } else {
