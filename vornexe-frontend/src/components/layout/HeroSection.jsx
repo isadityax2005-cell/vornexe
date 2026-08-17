@@ -29,8 +29,6 @@ const HeroSection = () => {
         <Link to="/signup">SIGN UP</Link>
         <Link to="/size-guide">SIZE GUIDE</Link>
         <Link to="/sustainability">SUSTAINABILITY</Link>
-        <Link to="/foundation">FOUNDATION</Link>
-        <Link to="/terms">TERMS</Link>
         <Link to="/privacy">PRIVACY POLICY</Link>
         <Link to="/about">ABOUT US</Link>
       </div>

@@ -11,6 +11,7 @@ import AdminProducts from './pages/admin/AdminProducts';
 import AdminOrders from './pages/admin/AdminOrders';
 import Signup from './pages/Signup';
 import AboutUs from './pages/AboutUs';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 import useAdminAuth from './hooks/useAdminAuth';
 
 // Protected Route Wrapper for Admin
@@ -31,6 +32,7 @@ function App() {
         <Route path="/checkout/:id" element={<Checkout />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/about" element={<AboutUs />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
         
         {/* Admin Routes */}
         <Route path="/admin/login" element={<AdminLogin />} />
