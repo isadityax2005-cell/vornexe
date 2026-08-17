@@ -40,7 +40,7 @@ const ProductForm = ({ onSubmit, initialData = null }) => {
       
       <div className="form-row">
         <div className="form-group">
-          <label>PRICE (USD)</label>
+          <label>PRICE (INR)</label>
           <input 
             type="number" 
             name="price" 
