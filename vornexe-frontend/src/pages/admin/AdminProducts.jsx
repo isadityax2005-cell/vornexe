@@ -3,16 +3,34 @@ import useProducts from '../../hooks/useProducts';
 import ProductForm from '../../components/admin/ProductForm';
 
 const AdminProducts = () => {
-  const { products, loading, addProduct } = useProducts();
+  const { products, loading, addProduct, updateProduct } = useProducts();
   const [showForm, setShowForm] = useState(false);
+  const [editingProduct, setEditingProduct] = useState(null);
 
   const handleAddProduct = async (data) => {
-    const result = await addProduct(data);
+    let result;
+    if (editingProduct) {
+      result = await updateProduct(editingProduct.id, data);
+    } else {
+      result = await addProduct(data);
+    }
+    
     if (result.success) {
       setShowForm(false);
+      setEditingProduct(null);
     } else {
-      alert("Failed to add product: " + result.error);
+      alert("Failed to save product: " + result.error);
     }
+  };
+
+  const handleEditClick = (product) => {
+    setEditingProduct(product);
+    setShowForm(true);
+  };
+
+  const handleCancel = () => {
+    setShowForm(false);
+    setEditingProduct(null);
   };
 
   return (
@@ -20,7 +38,7 @@ const AdminProducts = () => {
       <div className="admin-page-header">
         <h1>PRODUCTS</h1>
         {!showForm && (
-          <button className="admin-primary-btn" onClick={() => setShowForm(true)}>
+          <button className="admin-primary-btn" onClick={() => { setEditingProduct(null); setShowForm(true); }}>
             + NEW PIECE
           </button>
         )}
@@ -29,7 +47,7 @@ const AdminProducts = () => {
       {showForm ? (
         <div>
           <button 
-            onClick={() => setShowForm(false)}
+            onClick={handleCancel}
             style={{ 
               background: 'transparent', 
               border: 'none', 
@@ -41,7 +59,11 @@ const AdminProducts = () => {
           >
             ← BACK TO LIST
           </button>
-          <ProductForm onSubmit={handleAddProduct} />
+          <ProductForm 
+            key={editingProduct ? editingProduct.id : 'new'} 
+            initialData={editingProduct} 
+            onSubmit={handleAddProduct} 
+          />
         </div>
       ) : loading ? (
         <p>Loading...</p>
@@ -70,7 +92,9 @@ const AdminProducts = () => {
               }}>
                 {product.isSoldOut ? 'SOLD OUT' : 'AVAILABLE'}
               </div>
-              <button style={{ 
+              <button 
+                onClick={() => handleEditClick(product)}
+                style={{ 
                 background: 'transparent', 
                 border: '1px solid var(--border-color)', 
                 color: 'var(--text-primary)',

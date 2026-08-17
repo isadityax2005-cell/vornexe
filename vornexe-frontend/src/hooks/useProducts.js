@@ -56,11 +56,42 @@ const useProducts = () => {
     }
   };
 
+  const updateProduct = async (id, formDataObj) => {
+    try {
+      const data = new FormData();
+      data.append('name', formDataObj.name);
+      data.append('description', formDataObj.description);
+      data.append('price', formDataObj.price);
+      data.append('size', formDataObj.size);
+      data.append('isSoldOut', formDataObj.isSoldOut);
+      if (formDataObj.imageFile) {
+        data.append('image', formDataObj.imageFile);
+      }
+
+      const token = localStorage.getItem('vornexe_admin_token');
+      const res = await fetch(`${API_URL}/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: data
+      });
+      
+      if (!res.ok) throw new Error('Failed to update product');
+      await fetchProducts();
+      return { success: true };
+    } catch (err) {
+      console.error(err);
+      return { success: false, error: err.message };
+    }
+  };
+
   return {
     products,
     loading,
     error,
     addProduct,
+    updateProduct,
     refresh: fetchProducts
   };
 };
