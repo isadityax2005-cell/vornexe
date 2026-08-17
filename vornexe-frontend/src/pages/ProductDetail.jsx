@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import Header from '../components/layout/Header';
+import { useCart } from '../context/CartContext';
 import './ProductDetail.css';
 
 const ProductDetail = () => {
@@ -10,6 +11,8 @@ const ProductDetail = () => {
   const [otherProducts, setOtherProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { addToCart, cartItems } = useCart();
+  const isInCart = cartItems.some(item => item.id === product?.id);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -77,9 +80,10 @@ const ProductDetail = () => {
               <div className="action-buttons">
                 <button 
                   className="add-to-cart-btn" 
-                  disabled={product.isSoldOut}
+                  disabled={product.isSoldOut || isInCart}
+                  onClick={() => addToCart(product)}
                 >
-                  {product.isSoldOut ? 'UNAVAILABLE' : 'ADD TO BAG'}
+                  {product.isSoldOut ? 'UNAVAILABLE' : isInCart ? 'ADDED TO BAG' : 'ADD TO BAG'}
                 </button>
                 {!product.isSoldOut && (
                   <button 

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useCart } from '../../context/CartContext';
 import './Header.css';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  // Example hook for cart count (to be implemented by Claude)
-  const cartCount = 0; 
+  const { cartItems, toggleCart } = useCart();
+  const cartCount = cartItems.length;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,7 +41,7 @@ const Header = () => {
           </Link>
 
           <div className="header-right">
-            <Link to="/cart" className="cart-button" aria-label="Cart">
+            <button onClick={toggleCart} className="cart-button" aria-label="Cart" style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'inherit' }}>
               <span className="cart-text">BAG</span>
               <div className="cart-icon-wrapper">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -51,7 +51,7 @@ const Header = () => {
                 </svg>
                 {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
               </div>
-            </Link>
+            </button>
           </div>
 
         </div>

@@ -13,6 +13,8 @@ import Signup from './pages/Signup';
 import AboutUs from './pages/AboutUs';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import useAdminAuth from './hooks/useAdminAuth';
+import { CartProvider } from './context/CartContext';
+import CartDrawer from './components/layout/CartDrawer';
 
 // Protected Route Wrapper for Admin
 const ProtectedAdminRoute = ({ children }) => {
@@ -24,8 +26,10 @@ const ProtectedAdminRoute = ({ children }) => {
 
 function App() {
   return (
-    <Router>
-      <Routes>
+    <CartProvider>
+      <Router>
+        <CartDrawer />
+        <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/shop" element={<Shop />} />
         <Route path="/shop/:id" element={<ProductDetail />} />
@@ -50,6 +54,7 @@ function App() {
         </Route>
       </Routes>
     </Router>
+    </CartProvider>
   );
 }
 
