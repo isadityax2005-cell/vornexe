@@ -25,7 +25,7 @@ const AboutUs = () => {
           </div>
           
           <div className="about-image">
-            <img src="/VORNEXE_LOGO.png" alt="Vornexe Logo" className="about-logo" />
+            <img src="/logo.png" alt="Vornexe Logo" className="about-logo" />
           </div>
         </div>
       </main>

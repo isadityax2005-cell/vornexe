@@ -37,7 +37,7 @@ const Header = () => {
           </div>
 
           <Link to="/" className="logo">
-            <img src="/logo.png" alt="VORNEXE" style={{ height: '50px', objectFit: 'contain', mixBlendMode: 'screen' }} />
+            <img src="/logo.png" alt="VORNEXE" style={{ height: '50px', objectFit: 'contain' }} />
           </Link>
 
           <div className="header-right">
