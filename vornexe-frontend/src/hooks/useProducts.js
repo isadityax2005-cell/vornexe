@@ -10,7 +10,7 @@ const useProducts = () => {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const res = await fetch(API_URL);
+      const res = await fetch(`${API_URL}?t=${Date.now()}`);
       if (!res.ok) throw new Error('Failed to fetch archive');
       const data = await res.json();
       setProducts(data);
@@ -81,7 +81,10 @@ const useProducts = () => {
         body: data
       });
       
-      if (!res.ok) throw new Error('Failed to update product');
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(`Failed to update product: ${res.status} ${errText}`);
+      }
       await fetchProducts();
       return { success: true };
     } catch (err) {
