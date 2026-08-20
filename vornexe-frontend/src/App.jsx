@@ -12,6 +12,7 @@ import AdminOrders from './pages/admin/AdminOrders';
 import Signup from './pages/Signup';
 import AboutUs from './pages/AboutUs';
 import PrivacyPolicy from './pages/PrivacyPolicy';
+import Sustainability from './pages/Sustainability';
 import useAdminAuth from './hooks/useAdminAuth';
 import { CartProvider } from './context/CartContext';
 import CartDrawer from './components/layout/CartDrawer';
@@ -36,6 +37,7 @@ function App() {
         <Route path="/checkout/:id" element={<Checkout />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/about" element={<AboutUs />} />
+        <Route path="/sustainability" element={<Sustainability />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
         
         {/* Admin Routes */}

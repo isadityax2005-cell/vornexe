@@ -21,9 +21,6 @@ const AboutUs = () => {
                 <p>
                   At Vornexe, we believe in the beauty of individuality. Every piece in our store tells its own story, carefully selected to offer something truly special for people who love standing out.
                 </p>
-                <p>
-                  Beyond aesthetics, choosing to thrift is a powerful step towards sustainability. By giving pre-loved vintage garments a second life, we are actively participating in a circular economy, reducing fashion waste, and combating the environmental impact of fast fashion. Together, we can make sustainable choices look incredible.
-                </p>
               </div>
           </div>
           
