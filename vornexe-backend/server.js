@@ -209,6 +209,22 @@ app.post('/api/orders', async (req, res) => {
   }
 });
 
+// --- KEEP-ALIVE PING ---
+// Render spins down free tier instances after 15 mins of inactivity.
+// This pings the server every 14 minutes to keep it awake.
+const https = require('https');
+const RENDER_URL = process.env.RENDER_EXTERNAL_URL;
+
+if (RENDER_URL) {
+  setInterval(() => {
+    https.get(`${RENDER_URL}/api/products`, (resp) => {
+      console.log(`Keep-alive ping sent to ${RENDER_URL}: ${resp.statusCode}`);
+    }).on('error', (err) => {
+      console.error('Keep-alive ping failed:', err.message);
+    });
+  }, 14 * 60 * 1000); // 14 minutes
+}
+
 app.listen(PORT, () => {
   console.log(`Vornexe backend running on http://localhost:${PORT}`);
 });
