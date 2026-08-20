@@ -18,10 +18,13 @@ const AboutUs = () => {
               <p>
                 We are dedicated to bringing you the most unique crafted clothes, exclusive finds, and 1-of-1 pieces. Our collection is handpicked for individuals who appreciate the art of vintage fashion, distinct styles, and rare graphics that you won't find anywhere else.
               </p>
-              <p>
-                At Vornexe, we believe in the beauty of individuality. Every piece in our store tells its own story, carefully selected to offer something truly special for people who love standing out.
-              </p>
-            </div>
+                <p>
+                  At Vornexe, we believe in the beauty of individuality. Every piece in our store tells its own story, carefully selected to offer something truly special for people who love standing out.
+                </p>
+                <p>
+                  Beyond aesthetics, choosing to thrift is a powerful step towards sustainability. By giving pre-loved vintage garments a second life, we are actively participating in a circular economy, reducing fashion waste, and combating the environmental impact of fast fashion. Together, we can make sustainable choices look incredible.
+                </p>
+              </div>
           </div>
           
           <div className="about-image">
