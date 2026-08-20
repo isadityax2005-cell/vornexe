@@ -49,7 +49,10 @@ const useProducts = () => {
         body: data
       });
       
-      if (!res.ok) throw new Error('Failed to add product');
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(`Failed to add product: ${res.status} ${errText}`);
+      }
       await fetchProducts(); // Refresh list
       return { success: true };
     } catch (err) {
