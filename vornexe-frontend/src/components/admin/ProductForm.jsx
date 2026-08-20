@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './ProductForm.css';
 
-const ProductForm = ({ onSubmit, initialData = null }) => {
+const ProductForm = ({ onSubmit, initialData = null, onCancel }) => {
   const [formData, setFormData] = useState({
     name: initialData?.name || '',
     description: initialData?.description || '',
@@ -105,7 +105,7 @@ const ProductForm = ({ onSubmit, initialData = null }) => {
       </div>
 
       <div className="form-actions">
-        <button type="button" className="admin-secondary-btn">CANCEL</button>
+        <button type="button" className="admin-secondary-btn" onClick={onCancel}>CANCEL</button>
         <button type="submit" className="admin-primary-btn">
           {initialData ? 'UPDATE PIECE' : 'ADD TO ARCHIVE'}
         </button>

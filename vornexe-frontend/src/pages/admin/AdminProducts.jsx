@@ -3,7 +3,7 @@ import useProducts from '../../hooks/useProducts';
 import ProductForm from '../../components/admin/ProductForm';
 
 const AdminProducts = () => {
-  const { products, loading, addProduct, updateProduct } = useProducts();
+  const { products, loading, addProduct, updateProduct, deleteProduct } = useProducts();
   const [showForm, setShowForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
 
@@ -31,6 +31,15 @@ const AdminProducts = () => {
   const handleCancel = () => {
     setShowForm(false);
     setEditingProduct(null);
+  };
+
+  const handleDelete = async (id) => {
+    if (window.confirm('Are you sure you want to delete this piece?')) {
+      const result = await deleteProduct(id);
+      if (!result.success) {
+        alert("Failed to delete product: " + result.error);
+      }
+    }
   };
 
   return (
@@ -63,6 +72,7 @@ const AdminProducts = () => {
             key={editingProduct ? editingProduct.id : 'new'} 
             initialData={editingProduct} 
             onSubmit={handleAddProduct} 
+            onCancel={handleCancel}
           />
         </div>
       ) : loading ? (
@@ -78,7 +88,9 @@ const AdminProducts = () => {
               border: '1px solid var(--border-color)',
               gap: '2rem'
             }}>
-              <img src={product.imageUrls[0]} alt={product.name} style={{ width: '60px', height: '60px', objectFit: 'cover' }} />
+              {product.imageUrls && product.imageUrls.length > 0 && (
+                <img src={product.imageUrls[0]} alt={product.name} style={{ width: '60px', height: '60px', objectFit: 'cover' }} />
+              )}
               <div style={{ flex: 1 }}>
                 <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.5rem', lineHeight: 1 }}>{product.name}</h3>
                 <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Size: {product.size} | Price: ₹{product.price}</span>
@@ -102,6 +114,17 @@ const AdminProducts = () => {
                 cursor: 'pointer'
               }}>
                 EDIT
+              </button>
+              <button 
+                onClick={() => handleDelete(product.id)}
+                style={{ 
+                background: 'transparent', 
+                border: '1px solid #ff4444', 
+                color: '#ff4444',
+                padding: '0.5rem 1rem',
+                cursor: 'pointer'
+              }}>
+                DELETE
               </button>
             </div>
           ))}

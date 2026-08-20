@@ -96,12 +96,35 @@ const useProducts = () => {
     }
   };
 
+  const deleteProduct = async (id) => {
+    try {
+      const token = localStorage.getItem('vornexe_admin_token');
+      const res = await fetch(`${API_URL}/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(`Failed to delete product: ${res.status} ${errText}`);
+      }
+      await fetchProducts();
+      return { success: true };
+    } catch (err) {
+      console.error(err);
+      return { success: false, error: err.message };
+    }
+  };
+
   return {
     products,
     loading,
     error,
     addProduct,
     updateProduct,
+    deleteProduct,
     refresh: fetchProducts
   };
 };
