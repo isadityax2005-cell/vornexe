@@ -100,15 +100,17 @@ app.get('/api/products', async (req, res) => {
 });
 
 // Create a new product (with image upload)
-app.post('/api/products', verifyToken, upload.single('image'), async (req, res) => {
+app.post('/api/products', verifyToken, upload.array('images', 5), async (req, res) => {
   try {
+    const imageUrls = req.files ? req.files.map(file => file.path) : [];
+    
     const newProduct = new Product({
       name: req.body.name,
       description: req.body.description,
-      price: parseFloat(req.body.price),
-      size: req.body.size,
+      price: req.body.price ? parseFloat(req.body.price) : null,
+      size: req.body.size || '',
       isSoldOut: req.body.isSoldOut === 'true',
-      imageUrl: req.file ? req.file.path : null // req.file.path is the Cloudinary URL
+      imageUrls: imageUrls
     });
 
     const savedProduct = await newProduct.save();
@@ -119,18 +121,18 @@ app.post('/api/products', verifyToken, upload.single('image'), async (req, res) 
 });
 
 // Update a product
-app.put('/api/products/:id', verifyToken, upload.single('image'), async (req, res) => {
+app.put('/api/products/:id', verifyToken, upload.array('images', 5), async (req, res) => {
   try {
     const updateData = {
       name: req.body.name,
       description: req.body.description,
-      price: parseFloat(req.body.price),
-      size: req.body.size,
+      price: req.body.price ? parseFloat(req.body.price) : null,
+      size: req.body.size || '',
       isSoldOut: req.body.isSoldOut === 'true'
     };
 
-    if (req.file) {
-      updateData.imageUrl = req.file.path; // New Cloudinary URL
+    if (req.files && req.files.length > 0) {
+      updateData.imageUrls = req.files.map(file => file.path); // New Cloudinary URLs
     }
 
     const updatedProduct = await Product.findByIdAndUpdate(

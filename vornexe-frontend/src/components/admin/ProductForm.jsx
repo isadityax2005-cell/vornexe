@@ -7,7 +7,7 @@ const ProductForm = ({ onSubmit, initialData = null }) => {
     description: initialData?.description || '',
     price: initialData?.price || '',
     size: initialData?.size || '',
-    imageUrl: initialData?.imageUrl || '',
+    imageUrls: initialData?.imageUrls || [],
     isSoldOut: initialData?.isSoldOut || false
   });
 
@@ -75,20 +75,21 @@ const ProductForm = ({ onSubmit, initialData = null }) => {
       </div>
 
       <div className="form-group">
-        <label>IMAGE UPLOAD</label>
+        <label>IMAGE UPLOAD (Up to 5)</label>
         <input 
           type="file" 
-          name="image"
+          name="images"
           accept="image/*"
+          multiple
           onChange={(e) => {
             setFormData(prev => ({
               ...prev,
-              imageFile: e.target.files[0]
+              imageFiles: Array.from(e.target.files)
             }));
           }}
           required={!initialData} 
         />
-        <p className="form-help">Upload a photo from your computer. It will be saved securely to the backend.</p>
+        <p className="form-help">Upload photos from your computer. They will be saved securely to the backend.</p>
       </div>
 
       <div className="form-group checkbox-group">

@@ -11,6 +11,7 @@ const ProductDetail = () => {
   const [otherProducts, setOtherProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const { addToCart, cartItems } = useCart();
   const isInCart = cartItems.some(item => item.id === product?.id);
 
@@ -56,15 +57,46 @@ const ProductDetail = () => {
         {!loading && !error && product && (
           <div className="product-detail-container">
             <div className="product-detail-image">
-              <img src={product.imageUrl} alt={product.name} />
+              {product.imageUrls && product.imageUrls.length > 0 ? (
+                <>
+                  <img src={product.imageUrls[currentImageIndex]} alt={product.name} />
+                  {product.imageUrls.length > 1 && (
+                    <div className="carousel-controls">
+                      <button 
+                        className="carousel-btn prev"
+                        onClick={() => setCurrentImageIndex((prev) => prev === 0 ? product.imageUrls.length - 1 : prev - 1)}
+                      >
+                        &#10094;
+                      </button>
+                      <div className="carousel-dots">
+                        {product.imageUrls.map((_, idx) => (
+                          <span 
+                            key={idx} 
+                            className={`dot ${currentImageIndex === idx ? 'active' : ''}`}
+                            onClick={() => setCurrentImageIndex(idx)}
+                          />
+                        ))}
+                      </div>
+                      <button 
+                        className="carousel-btn next"
+                        onClick={() => setCurrentImageIndex((prev) => prev === product.imageUrls.length - 1 ? 0 : prev + 1)}
+                      >
+                        &#10095;
+                      </button>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div className="no-image">No Image Available</div>
+              )}
             </div>
             
             <div className="product-detail-info">
               <h1>{product.name}</h1>
               
               <div className="product-detail-meta">
-                <span className="detail-price">₹{product.price}</span>
-                <span className="detail-size">SIZE {product.size}</span>
+                <span className="detail-price">{product.price ? `₹${product.price}` : 'Price TBD'}</span>
+                <span className="detail-size">SIZE {product.size || 'TBD'}</span>
               </div>
 
               {product.isSoldOut ? (
@@ -105,10 +137,14 @@ const ProductDetail = () => {
               {otherProducts.map(p => (
                 <Link to={`/shop/${p.id}`} key={p.id} className="explore-card">
                   <div className="explore-image-container">
-                    <img src={p.imageUrl} alt={p.name} />
+                    {p.imageUrls && p.imageUrls.length > 0 ? (
+                      <img src={p.imageUrls[0]} alt={p.name} />
+                    ) : (
+                      <div className="no-image">No Image</div>
+                    )}
                   </div>
                   <h3>{p.name}</h3>
-                  <p>₹{p.price} - Size {p.size}</p>
+                  <p>{p.price ? `₹${p.price}` : 'Price TBD'} - Size {p.size || 'TBD'}</p>
                 </Link>
               ))}
             </div>

@@ -22,18 +22,33 @@ const Shop = () => {
         {!loading && !error && (
           <div className="product-grid">
             {products.map(product => (
-              <Link to={`/shop/${product.id}`} key={product.id} style={{textDecoration: 'none'}}>
-                <div className="product-card">
-                  <div className="product-image-container">
-                    <img src={product.imageUrl} alt={product.name} />
-                    {product.isSoldOut && <div className="sold-out-badge">SOLD OUT</div>}
-                  </div>
-                  <div className="product-info">
-                    <h3>{product.name}</h3>
-                    <div className="product-meta">
-                      <span className="product-size">Size {product.size}</span>
-                      <span className="product-price">₹{product.price}</span>
-                    </div>
+              <Link to={`/shop/${product.id}`} key={product.id} className="product-card">
+                <div className="product-image-container">
+                  {product.imageUrls && product.imageUrls.length > 0 ? (
+                    <>
+                      <img 
+                        src={product.imageUrls[0]} 
+                        alt={product.name} 
+                        className={`product-img main-img ${product.imageUrls.length > 1 ? 'has-hover' : ''}`}
+                      />
+                      {product.imageUrls.length > 1 && (
+                        <img 
+                          src={product.imageUrls[1]} 
+                          alt={`${product.name} alternate view`} 
+                          className="product-img hover-img"
+                        />
+                      )}
+                    </>
+                  ) : (
+                    <div className="no-image">No Image</div>
+                  )}
+                  {product.isSoldOut && <div className="sold-out-badge">SOLD OUT</div>}
+                </div>
+                <div className="product-info">
+                  <h3>{product.name}</h3>
+                  <div className="product-meta">
+                    <span className="product-size">Size {product.size}</span>
+                    <span className="product-price">₹{product.price}</span>
                   </div>
                 </div>
               </Link>

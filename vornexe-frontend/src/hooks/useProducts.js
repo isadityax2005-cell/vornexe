@@ -34,8 +34,10 @@ const useProducts = () => {
       data.append('price', formDataObj.price);
       data.append('size', formDataObj.size);
       data.append('isSoldOut', formDataObj.isSoldOut);
-      if (formDataObj.imageFile) {
-        data.append('image', formDataObj.imageFile);
+      if (formDataObj.imageFiles && formDataObj.imageFiles.length > 0) {
+        formDataObj.imageFiles.forEach(file => {
+          data.append('images', file);
+        });
       }
 
       const token = localStorage.getItem('vornexe_admin_token');
@@ -64,8 +66,10 @@ const useProducts = () => {
       data.append('price', formDataObj.price);
       data.append('size', formDataObj.size);
       data.append('isSoldOut', formDataObj.isSoldOut);
-      if (formDataObj.imageFile) {
-        data.append('image', formDataObj.imageFile);
+      if (formDataObj.imageFiles && formDataObj.imageFiles.length > 0) {
+        formDataObj.imageFiles.forEach(file => {
+          data.append('images', file);
+        });
       }
 
       const token = localStorage.getItem('vornexe_admin_token');
