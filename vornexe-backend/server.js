@@ -139,6 +139,53 @@ app.post('/api/subscribe', async (req, res) => {
   }
 });
 
+// Collab Pitch
+app.post('/api/collab', async (req, res) => {
+  try {
+    const { brandName, email, link, proposal } = req.body;
+
+    const emailHtml = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #050505; color: #ffffff; padding: 40px; text-align: left; border: 1px solid #333;">
+        <h2 style="text-transform: uppercase; letter-spacing: 1px; margin-bottom: 30px; border-bottom: 1px solid #333; padding-bottom: 10px;">New Collaboration Pitch</h2>
+        
+        <p style="margin-bottom: 15px;"><strong>Brand/Designer:</strong> ${brandName}</p>
+        <p style="margin-bottom: 15px;"><strong>Contact Email:</strong> <a href="mailto:${email}" style="color: #4a90e2;">${email}</a></p>
+        <p style="margin-bottom: 30px;"><strong>Link:</strong> <a href="${link}" target="_blank" style="color: #4a90e2;">${link}</a></p>
+        
+        <h3 style="text-transform: uppercase; font-size: 14px; color: #888; margin-bottom: 10px;">Proposal:</h3>
+        <div style="background-color: #111; padding: 20px; border-radius: 4px; line-height: 1.6; white-space: pre-wrap;">${proposal}</div>
+        
+        <p style="font-size: 12px; color: #666666; margin-top: 40px; text-align: center;">
+          Sent from VORNEXE Collab Portal
+        </p>
+      </div>
+    `;
+
+    // Send email TO the admin
+    await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'api-key': process.env.BREVO_API_KEY
+      },
+      body: JSON.stringify({
+        sender: { name: "VORNEXE Portal", email: process.env.EMAIL_USER },
+        to: [{ email: process.env.EMAIL_USER }], // Send to yourself
+        replyTo: { email: email, name: brandName }, // Allow hitting 'Reply' directly
+        subject: `Collab Pitch: ${brandName}`,
+        htmlContent: emailHtml
+      })
+    });
+
+    res.status(200).json({ message: 'Pitch sent successfully!' });
+
+  } catch (err) {
+    console.error('Collab error:', err);
+    res.status(500).json({ error: 'Failed to send pitch. Please try again.' });
+  }
+});
+
 // Admin Login
 app.post('/api/admin/login', (req, res) => {
   const { password } = req.body;

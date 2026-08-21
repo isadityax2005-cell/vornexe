@@ -2,6 +2,7 @@ import React from 'react';
 import Header from '../components/layout/Header';
 import HeroSection from '../components/layout/HeroSection';
 import SizeGuideSection from '../components/layout/SizeGuideSection';
+import CollabSection from '../components/layout/CollabSection';
 
 const Home = () => {
   return (
@@ -10,6 +11,7 @@ const Home = () => {
       <main>
         <HeroSection />
         <SizeGuideSection />
+        <CollabSection />
       </main>
     </>
   );

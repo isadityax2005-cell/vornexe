@@ -1,0 +1,168 @@
+.collab-section {
+  padding: 6rem 2rem;
+  background-color: #050505;
+  border-top: 1px solid #1a1a1a;
+  color: #fff;
+}
+
+.collab-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.collab-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.collab-header h2 {
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.collab-subtitle {
+  font-size: 1rem;
+  color: #888;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.collab-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: flex-start;
+}
+
+.collab-info h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  letter-spacing: 1px;
+}
+
+.collab-info p {
+  color: #aaa;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+}
+
+.collab-form-wrapper {
+  background: rgba(20, 20, 20, 0.5);
+  padding: 3rem;
+  border: 1px solid #333;
+  backdrop-filter: blur(10px);
+}
+
+.collab-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #444;
+  color: #fff;
+  padding: 1rem 0;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  transition: border-color 0.3s ease;
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-bottom-color: #fff;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #666;
+}
+
+.submit-btn {
+  background-color: #fff;
+  color: #000;
+  border: none;
+  padding: 1rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background-color: #ccc;
+  transform: translateY(-2px);
+}
+
+.submit-btn:disabled {
+  background-color: #333;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: #ff4444;
+  font-size: 0.9rem;
+  background: rgba(255, 68, 68, 0.1);
+  padding: 1rem;
+  border-left: 3px solid #ff4444;
+}
+
+.collab-success {
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.collab-success h3 {
+  color: #4CAF50;
+  margin-bottom: 1rem;
+  letter-spacing: 2px;
+}
+
+.collab-success p {
+  color: #aaa;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 900px) {
+  .collab-content {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  
+  .collab-form-wrapper {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .collab-header h2 {
+    font-size: 2.2rem;
+  }
+}
