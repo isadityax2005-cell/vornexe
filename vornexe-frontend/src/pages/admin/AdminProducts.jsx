@@ -80,7 +80,7 @@ const AdminProducts = () => {
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           {products.map(product => (
-            <div key={product.id} style={{ 
+            <div key={product.id} className="admin-product-row" style={{ 
               display: 'flex', 
               alignItems: 'center', 
               padding: '1rem 2rem', 
@@ -104,28 +104,30 @@ const AdminProducts = () => {
               }}>
                 {product.isSoldOut ? 'SOLD OUT' : 'AVAILABLE'}
               </div>
-              <button 
-                onClick={() => handleEditClick(product)}
-                style={{ 
-                background: 'transparent', 
-                border: '1px solid var(--border-color)', 
-                color: 'var(--text-primary)',
-                padding: '0.5rem 1rem',
-                cursor: 'pointer'
-              }}>
-                EDIT
-              </button>
-              <button 
-                onClick={() => handleDelete(product.id)}
-                style={{ 
-                background: 'transparent', 
-                border: '1px solid #ff4444', 
-                color: '#ff4444',
-                padding: '0.5rem 1rem',
-                cursor: 'pointer'
-              }}>
-                DELETE
-              </button>
+              <div className="admin-product-row-actions">
+                <button 
+                  onClick={() => handleEditClick(product)}
+                  style={{ 
+                  background: 'transparent', 
+                  border: '1px solid var(--border-color)', 
+                  color: 'var(--text-primary)',
+                  padding: '0.5rem 1rem',
+                  cursor: 'pointer'
+                }}>
+                  EDIT
+                </button>
+                <button 
+                  onClick={() => handleDelete(product.id)}
+                  style={{ 
+                  background: 'transparent', 
+                  border: '1px solid #ff4444', 
+                  color: '#ff4444',
+                  padding: '0.5rem 1rem',
+                  cursor: 'pointer'
+                }}>
+                  DELETE
+                </button>
+              </div>
             </div>
           ))}
         </div>

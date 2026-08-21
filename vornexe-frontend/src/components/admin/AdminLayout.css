@@ -119,3 +119,75 @@
   background: transparent;
   color: var(--text-primary);
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .admin-layout {
+    flex-direction: column;
+  }
+
+  .admin-sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    padding: 1.5rem;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .admin-logo {
+    margin-bottom: 2rem;
+  }
+  
+  .admin-logo h2 {
+    font-size: 2.5rem;
+  }
+
+  .admin-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .admin-nav a {
+    font-size: 1.5rem;
+  }
+
+  .admin-content {
+    padding: 1.5rem;
+  }
+
+  .admin-page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .admin-page-header h1 {
+    font-size: 2.5rem;
+  }
+
+  .admin-product-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 1rem !important;
+    padding: 1rem !important;
+  }
+
+  .admin-product-row img {
+    width: 100% !important;
+    height: 200px !important;
+  }
+  
+  .admin-product-row-actions {
+    width: 100%;
+    display: flex;
+    gap: 0.5rem;
+    justify-content: space-between;
+  }
+  
+  .admin-product-row-actions button {
+    flex: 1;
+  }
+}
