@@ -79,7 +79,7 @@ const Checkout = () => {
 
       // 2. Initialize Razorpay popup
       const options = {
-        key: "rzp_test_TQOqNBDEZ6wovc", 
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID, 
         amount: orderData.amount,
         currency: orderData.currency,
         name: "VORNEXE ARCHIVE",
