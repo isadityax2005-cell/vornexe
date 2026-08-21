@@ -1,18 +1,18 @@
 .size-guide-section {
   padding: 6rem 2rem;
-  background-color: #050505; /* Slightly darker than main bg to separate section */
+  background-color: #050505; 
   border-top: 1px solid var(--border-color);
   border-bottom: 1px solid var(--border-color);
 }
 
 .size-guide-container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
 .size-guide-header {
   text-align: center;
-  margin-bottom: 4rem;
+  margin-bottom: 5rem;
 }
 
 .size-guide-header h2 {
@@ -35,12 +35,33 @@
 
 .size-guide-content {
   display: flex;
-  gap: 4rem;
-  align-items: flex-start;
+  gap: 5rem;
+  align-items: center;
 }
 
-.size-guide-info {
+.size-guide-visual {
   flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000;
+  border: 1px solid var(--border-color);
+  padding: 2rem;
+  border-radius: 8px;
+}
+
+.size-guide-image {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.05));
+}
+
+.size-guide-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
 }
 
 .size-guide-info h3 {
@@ -90,12 +111,12 @@
   font-size: 0.9rem !important;
   color: var(--text-secondary) !important;
   font-style: italic;
+  margin-bottom: 0 !important;
 }
 
 .size-guide-table-wrapper {
-  flex: 1.2;
   width: 100%;
-  overflow-x: auto; /* For mobile scrolling */
+  overflow-x: auto;
 }
 
 .size-guide-table {
@@ -107,7 +128,7 @@
 
 .size-guide-table th,
 .size-guide-table td {
-  padding: 1.5rem;
+  padding: 1.25rem;
   text-align: center;
   border-bottom: 1px solid var(--border-color);
   font-family: var(--font-primary);
@@ -115,10 +136,27 @@
 
 .size-guide-table th {
   font-family: var(--font-display);
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   letter-spacing: 0.1em;
   color: var(--text-secondary);
   border-bottom: 2px solid var(--border-color);
+  white-space: nowrap;
+}
+
+.key-marker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background-color: var(--text-primary);
+  color: #000;
+  border-radius: 50%;
+  font-family: var(--font-primary);
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-right: 8px;
+  vertical-align: middle;
 }
 
 .size-guide-table td {
@@ -141,12 +179,20 @@
 }
 
 /* Mobile Responsiveness */
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .size-guide-content {
     flex-direction: column;
-    gap: 3rem;
+    gap: 4rem;
   }
+  
+  .size-guide-visual {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
 
+@media (max-width: 768px) {
   .size-guide-header h2 {
     font-size: 3rem;
   }
@@ -158,6 +204,13 @@
   }
   
   .size-guide-table th {
-    font-size: 1rem;
+    font-size: 0.95rem;
+  }
+  
+  .key-marker {
+    width: 18px;
+    height: 18px;
+    font-size: 0.7rem;
+    margin-right: 4px;
   }
 }
