@@ -8,7 +8,6 @@ const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const jwt = require('jsonwebtoken');
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
-const nodemailer = require('nodemailer');
 const Product = require('./models/Product');
 const Order = require('./models/Order');
 const Subscriber = require('./models/Subscriber');
@@ -48,14 +47,8 @@ const razorpay = new Razorpay({
   key_secret: process.env.RAZORPAY_KEY_SECRET
 });
 
-// Configure Nodemailer
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
-});
+// Note: Nodemailer was removed because Render blocks SMTP (port 465/587).
+// We use the Brevo HTTP API instead (port 443).
 
 // --- AUTH MIDDLEWARE ---
 const verifyToken = (req, res, next) => {
@@ -96,42 +89,47 @@ app.post('/api/subscribe', async (req, res) => {
     
     await newSubscriber.save();
 
-    // Send Welcome Email
-    const mailOptions = {
-      from: `"VORNEXE" <${process.env.EMAIL_USER}>`,
-      to: email,
-      subject: 'Welcome to VORNEXE',
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #050505; color: #ffffff; padding: 40px; text-align: center;">
-          <h1 style="font-size: 32px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px;">VORNEXE</h1>
-          <p style="font-size: 14px; letter-spacing: 1px; color: #888888; text-transform: uppercase; margin-bottom: 40px;">Account Created</p>
-          
-          <div style="text-align: left; margin-bottom: 30px; line-height: 1.6;">
-            <p>Hi ${name},</p>
-            <p>Welcome to VORNEXE. Your account has been successfully created.</p>
-            <p>You will now receive updates on our exclusive 1-of-1 drops.</p>
-          </div>
+    // Send Welcome Email via Brevo HTTP API
+    const emailHtml = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #050505; color: #ffffff; padding: 40px; text-align: center;">
+        <h1 style="font-size: 32px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px;">VORNEXE</h1>
+        <p style="font-size: 14px; letter-spacing: 1px; color: #888888; text-transform: uppercase; margin-bottom: 40px;">Account Created</p>
+        
+        <div style="text-align: left; margin-bottom: 30px; line-height: 1.6;">
+          <p>Hi ${name},</p>
+          <p>Welcome to VORNEXE. Your account has been successfully created.</p>
+          <p>You will now receive updates on our exclusive 1-of-1 drops.</p>
+        </div>
 
-          <div style="background-color: #111111; padding: 20px; text-align: left; border-left: 4px solid #ffffff; margin-bottom: 30px;">
-            <h3 style="margin-top: 0; font-size: 16px;">IMPORTANT POLICY REMINDER</h3>
-            <p style="font-size: 14px; color: #cccccc; margin-bottom: 0;">
-              As a reminder, you agreed to our No-Return Policy during signup. 
-              Because all pieces are 1-of-1, once a product is bought it cannot be replaced or returned. 
-              Please always refer to the size chart measurements before purchasing.
-            </p>
-          </div>
-
-          <p style="font-size: 12px; color: #666666; margin-top: 40px;">
-            © ${new Date().getFullYear()} VORNEXE. All rights reserved.
+        <div style="background-color: #111111; padding: 20px; text-align: left; border-left: 4px solid #ffffff; margin-bottom: 30px;">
+          <h3 style="margin-top: 0; font-size: 16px;">IMPORTANT POLICY REMINDER</h3>
+          <p style="font-size: 14px; color: #cccccc; margin-bottom: 0;">
+            As a reminder, you agreed to our No-Return Policy during signup. 
+            Because all pieces are 1-of-1, once a product is bought it cannot be replaced or returned. 
+            Please always refer to the size chart measurements before purchasing.
           </p>
         </div>
-      `
-    };
 
-    // We don't await this so it doesn't block the response, but we catch errors
-    transporter.sendMail(mailOptions).catch(err => {
-      console.error('Failed to send welcome email:', err);
-    });
+        <p style="font-size: 12px; color: #666666; margin-top: 40px;">
+          © ${new Date().getFullYear()} VORNEXE. All rights reserved.
+        </p>
+      </div>
+    `;
+
+    fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'api-key': process.env.BREVO_API_KEY
+      },
+      body: JSON.stringify({
+        sender: { name: "VORNEXE", email: process.env.EMAIL_USER },
+        to: [{ email: email }],
+        subject: "Welcome to VORNEXE",
+        htmlContent: emailHtml
+      })
+    }).catch(err => console.error("Failed to trigger Brevo API:", err));
 
     res.status(201).json({ message: 'Account created successfully!' });
 
