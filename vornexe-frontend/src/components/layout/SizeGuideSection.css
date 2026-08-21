@@ -1,6 +1,8 @@
 .size-guide-section {
-  padding: 6rem 2rem;
-  background-color: #050505; 
+  padding: 4rem 2rem;
+  background: rgba(5, 5, 5, 0.7);
+  backdrop-filter: blur(15px);
+  color: var(--text-primary);
   border-top: 1px solid var(--border-color);
   border-bottom: 1px solid var(--border-color);
 }

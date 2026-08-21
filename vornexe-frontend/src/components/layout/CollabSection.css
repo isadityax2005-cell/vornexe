@@ -1,6 +1,7 @@
 .collab-section {
   padding: 6rem 2rem;
-  background-color: #050505;
+  background: rgba(5, 5, 5, 0.7);
+  backdrop-filter: blur(15px);
   border-top: 1px solid #1a1a1a;
   color: #fff;
 }
