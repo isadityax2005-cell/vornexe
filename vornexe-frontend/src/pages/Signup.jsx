@@ -13,6 +13,8 @@ const Signup = () => {
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -22,13 +24,39 @@ const Signup = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+
     if (!formData.agreePolicy) {
-      alert("You must agree to the Return Policy to sign up.");
+      setError("You must agree to the Return Policy to sign up.");
       return;
     }
-    setSubmitted(true);
+
+    setLoading(true);
+
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const response = await fetch(`${apiUrl}/api/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to sign up');
+      }
+
+      setSubmitted(true);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -41,10 +69,11 @@ const Signup = () => {
           {submitted ? (
             <div className="success-message">
               <h2>Welcome to Vornexe</h2>
-              <p>Your account has been created successfully.</p>
+              <p>Your account has been created successfully. A confirmation email has been sent to your inbox.</p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="signup-form">
+              {error && <div className="error-message" style={{ color: '#ff4444', marginBottom: '1rem', textAlign: 'center', backgroundColor: 'rgba(255, 68, 68, 0.1)', padding: '10px', borderRadius: '4px' }}>{error}</div>}
               <div className="form-group">
                 <input 
                   type="text" 
@@ -122,7 +151,9 @@ const Signup = () => {
                 </div>
               </div>
               
-              <button type="submit" className="submit-btn">CREATE ACCOUNT</button>
+              <button type="submit" className="submit-btn" disabled={loading}>
+                {loading ? 'CREATING ACCOUNT...' : 'CREATE ACCOUNT'}
+              </button>
             </form>
           )}
         </div>
