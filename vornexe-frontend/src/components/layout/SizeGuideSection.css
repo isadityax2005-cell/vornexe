@@ -12,7 +12,7 @@
 
 .size-guide-header {
   text-align: center;
-  margin-bottom: 5rem;
+  margin-bottom: 3rem;
 }
 
 .size-guide-header h2 {
@@ -33,6 +33,41 @@
   margin: 0;
 }
 
+/* Tabs Styling */
+.size-guide-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 4rem;
+  flex-wrap: wrap;
+}
+
+.size-tab {
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-primary);
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+}
+
+.size-tab:hover {
+  border-color: #555;
+  color: #fff;
+}
+
+.size-tab.active {
+  background-color: var(--text-primary);
+  color: #000;
+  border-color: var(--text-primary);
+  font-weight: bold;
+}
+
 .size-guide-content {
   display: flex;
   gap: 5rem;
@@ -48,10 +83,12 @@
   border: 1px solid var(--border-color);
   padding: 2rem;
   border-radius: 8px;
+  min-height: 500px;
 }
 
 .size-guide-image {
   max-width: 100%;
+  max-height: 600px;
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.05));
@@ -178,6 +215,16 @@
   letter-spacing: 0.05em;
 }
 
+/* Animations */
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0.5; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
 /* Mobile Responsiveness */
 @media (max-width: 1024px) {
   .size-guide-content {
@@ -189,12 +236,31 @@
     width: 100%;
     max-width: 600px;
     margin: 0 auto;
+    min-height: 300px;
   }
 }
 
 @media (max-width: 768px) {
   .size-guide-header h2 {
     font-size: 3rem;
+  }
+  
+  .size-guide-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding-bottom: 1rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+  }
+  
+  .size-guide-tabs::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+  
+  .size-tab {
+    white-space: nowrap;
+    flex-shrink: 0;
   }
   
   .size-guide-table th,
