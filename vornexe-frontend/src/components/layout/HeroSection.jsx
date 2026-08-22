@@ -11,6 +11,7 @@ const HeroSection = () => {
           loop 
           muted 
           playsInline 
+          poster="/background.jpg"
           className="hero-video"
         >
           <source src="/VORNEXE.mp4" type="video/mp4" />

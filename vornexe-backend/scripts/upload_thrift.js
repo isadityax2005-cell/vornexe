@@ -54,8 +54,8 @@ const uploadProducts = async () => {
           name: p.name,
           price: 399,
           description: 'Unique 1/1 vintage thrift piece. Please check size chart and measurements carefully before purchasing.',
-          images: [result.secure_url],
-          sizes: ['M', 'L'],
+          imageUrl: result.secure_url,
+          size: 'M, L',
           isSoldOut: false
         });
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import Header from '../components/layout/Header';
+import SEO from '../components/common/SEO';
 import { useCart } from '../context/CartContext';
 import './ProductDetail.css';
 
@@ -45,6 +46,14 @@ const ProductDetail = () => {
 
   return (
     <>
+      {product && (
+        <SEO 
+          title={product.name}
+          description={product.description}
+          image={product.imageUrls?.[0]}
+          productData={product}
+        />
+      )}
       <Header />
       <main className="product-detail-page">
         <div className="back-link-container">

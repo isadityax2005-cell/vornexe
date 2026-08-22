@@ -31,12 +31,14 @@ const FeaturedProducts = () => {
                     <img 
                       src={product.imageUrls[0]} 
                       alt={product.name} 
+                      loading="lazy"
                       className={`featured-img main-img ${product.imageUrls.length > 1 ? 'has-hover' : ''}`}
                     />
                     {product.imageUrls.length > 1 && (
                       <img 
                         src={product.imageUrls[1]} 
                         alt={`${product.name} alternate view`} 
+                        loading="lazy"
                         className="featured-img hover-img"
                       />
                     )}

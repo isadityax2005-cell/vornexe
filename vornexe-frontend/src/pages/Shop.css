@@ -27,6 +27,48 @@
   letter-spacing: 0.05em;
 }
 
+/* --- Search Bar --- */
+.search-container {
+  max-width: 600px;
+  margin: 0 auto 4rem auto;
+  padding: 0 2rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-family: var(--font-primary);
+  font-size: 1rem;
+  outline: none;
+  border-radius: 0;
+  transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+  border-color: var(--text-primary);
+}
+
+.search-input::placeholder {
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.85rem;
+}
+
+.no-results {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-secondary);
+  font-family: var(--font-primary);
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
