@@ -1,8 +1,9 @@
 import React from 'react';
 import Header from '../components/layout/Header';
 import HeroSection from '../components/layout/HeroSection';
-import SizeGuideSection from '../components/layout/SizeGuideSection';
+import FeaturedProducts from '../components/layout/FeaturedProducts';
 import CollabSection from '../components/layout/CollabSection';
+import Footer from '../components/layout/Footer';
 
 const Home = () => {
   return (
@@ -10,9 +11,10 @@ const Home = () => {
       <Header />
       <main>
         <HeroSection />
-        <SizeGuideSection />
+        <FeaturedProducts />
         <CollabSection />
       </main>
+      <Footer />
     </>
   );
 };

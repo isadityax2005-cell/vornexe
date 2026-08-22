@@ -19,18 +19,16 @@ const HeroSection = () => {
       </div>
 
       <div className="hero-content animate-fade-in">
-        <Link to="/shop" className="shop-button">
-          SHOP HERE
+        <p className="hero-drop-label">EXCLUSIVE 1-OF-1 ARCHIVE</p>
+        <h1 className="hero-drop-title">DROP 001</h1>
+        <Link to="/shop" className="hero-cta">
+          SHOP NOW
         </Link>
       </div>
 
-      <div className="hero-bottom-nav">
-        <Link to="/shop">PRODUCTS</Link>
-        <Link to="/signup">SIGN UP</Link>
-        <Link to="/size-guide">SIZE GUIDE</Link>
-        <Link to="/sustainability">SUSTAINABILITY</Link>
-        <Link to="/privacy">PRIVACY POLICY</Link>
-        <Link to="/about">ABOUT US</Link>
+      <div className="hero-scroll-indicator">
+        <span className="scroll-text">SCROLL</span>
+        <div className="scroll-line"></div>
       </div>
     </section>
   );

@@ -85,3 +85,12 @@
     min-width: 120px;
   }
 }
+
+.footer-trust-note {
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  max-width: 200px;
+  line-height: 1.4;
+}

@@ -14,10 +14,10 @@ const Footer = () => {
         <div className="footer-links">
           <div className="link-group">
             <h3>SUPPORT</h3>
-            <Link to="/faq">FAQ</Link>
-            <Link to="/shipping">Shipping</Link>
-            <Link to="/returns">Returns</Link>
-            <Link to="/contact">Contact</Link>
+            <Link to="/shipping">Shipping Info</Link>
+            <Link to="/returns">Returns Policy</Link>
+            <a href="mailto:vornexe.official@gmail.com">Contact Us</a>
+            <p className="footer-trust-note">Strict No-Return policy. All 1-of-1 sales are final.</p>
           </div>
           <div className="link-group">
             <h3>SOCIAL</h3>

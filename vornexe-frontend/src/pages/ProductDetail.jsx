@@ -105,10 +105,6 @@ const ProductDetail = () => {
                 <div className="status-badge available">1-OF-1 AVAILABLE</div>
               )}
 
-              <div className="product-description">
-                <p>{product.description}</p>
-              </div>
-
               <div className="action-buttons">
                 <button 
                   className="add-to-cart-btn" 
@@ -126,6 +122,38 @@ const ProductDetail = () => {
                   </button>
                 )}
               </div>
+
+              <div className="product-accordions">
+                <details className="accordion-item" open>
+                  <summary>DESCRIPTION</summary>
+                  <div className="accordion-content">
+                    <p>{product.description}</p>
+                  </div>
+                </details>
+                <details className="accordion-item">
+                  <summary>FIT & SIZING</summary>
+                  <div className="accordion-content">
+                    <p><strong>Model:</strong> 6'1" / 185 cm</p>
+                    <p><strong>Wearing:</strong> {product.size || 'L'}</p>
+                    <p className="fit-note"><em>Oversized architectural silhouette. We recommend your usual size for the intended fit.</em></p>
+                  </div>
+                </details>
+                <details className="accordion-item">
+                  <summary>MATERIAL</summary>
+                  <div className="accordion-content">
+                    <p>Heavyweight 100% Cotton. Custom milled and treated.</p>
+                  </div>
+                </details>
+                <details className="accordion-item">
+                  <summary>SHIPPING & RETURNS</summary>
+                  <div className="accordion-content">
+                    <p><strong>Shipping:</strong> Ships within 2-4 business days.</p>
+                    <p><strong>Returns:</strong> Strict No-Return policy. All 1-of-1 sales are final.</p>
+                  </div>
+                </details>
+              </div>
+
+
             </div>
           </div>
         )}
