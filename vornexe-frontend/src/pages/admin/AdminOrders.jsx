@@ -73,7 +73,7 @@ const AdminOrders = () => {
                   <p style={{ margin: 0 }}>{order.shippingDetails.city}, {order.shippingDetails.state} {order.shippingDetails.pinCode}</p>
                 </div>
                 <div>
-                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '0.5rem' }}>PAYMENT (UPI)</p>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '0.5rem' }}>PAYMENT ({order.paymentMethod ? order.paymentMethod.toUpperCase() : 'UPI'})</p>
                   <p style={{ margin: 0 }}>TXN ID: <strong>{order.transactionId}</strong></p>
                 </div>
                 <div>
