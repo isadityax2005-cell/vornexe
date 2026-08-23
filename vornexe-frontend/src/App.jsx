@@ -12,6 +12,9 @@ import AdminOrders from './pages/admin/AdminOrders';
 import Signup from './pages/Signup';
 import AboutUs from './pages/AboutUs';
 import PrivacyPolicy from './pages/PrivacyPolicy';
+import ShippingPolicy from './pages/ShippingPolicy';
+import ReturnsPolicy from './pages/ReturnsPolicy';
+import TermsOfService from './pages/TermsOfService';
 import Sustainability from './pages/Sustainability';
 import SizeGuide from './pages/SizeGuide';
 import useAdminAuth from './hooks/useAdminAuth';
@@ -41,6 +44,9 @@ function App() {
         <Route path="/size-guide" element={<SizeGuide />} />
         <Route path="/sustainability" element={<Sustainability />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/shipping" element={<ShippingPolicy />} />
+        <Route path="/returns" element={<ReturnsPolicy />} />
+        <Route path="/terms" element={<TermsOfService />} />
         
         {/* Admin Routes */}
         <Route path="/admin/login" element={<AdminLogin />} />
