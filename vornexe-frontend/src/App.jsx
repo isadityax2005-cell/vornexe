@@ -9,8 +9,10 @@ import AdminLogin from './pages/admin/AdminLogin';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminProducts from './pages/admin/AdminProducts';
 import AdminOrders from './pages/admin/AdminOrders';
+import AdminMessages from './pages/admin/AdminMessages';
 import Signup from './pages/Signup';
 import AboutUs from './pages/AboutUs';
+import ContactUs from './pages/ContactUs';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import ShippingPolicy from './pages/ShippingPolicy';
 import ReturnsPolicy from './pages/ReturnsPolicy';
@@ -41,6 +43,7 @@ function App() {
         <Route path="/checkout/:id" element={<Checkout />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/about" element={<AboutUs />} />
+        <Route path="/contact" element={<ContactUs />} />
         <Route path="/size-guide" element={<SizeGuide />} />
         <Route path="/sustainability" element={<Sustainability />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
@@ -61,6 +64,7 @@ function App() {
           <Route index element={<AdminDashboard />} />
           <Route path="products" element={<AdminProducts />} />
           <Route path="orders" element={<AdminOrders />} />
+          <Route path="messages" element={<AdminMessages />} />
         </Route>
       </Routes>
     </Router>

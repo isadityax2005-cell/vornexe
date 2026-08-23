@@ -11,6 +11,7 @@ const crypto = require('crypto');
 const Product = require('./models/Product');
 const Order = require('./models/Order');
 const Subscriber = require('./models/Subscriber');
+const ContactMessage = require('./models/ContactMessage');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -330,6 +331,82 @@ app.post('/api/orders', async (req, res) => {
     res.status(201).json(savedOrder);
   } catch (err) {
     res.status(500).json({ error: 'Failed to process order' });
+  }
+});
+
+// Contact Form Submission
+app.post('/api/contact', async (req, res) => {
+  try {
+    const { name, email, message } = req.body;
+    if (!name || !email || !message) {
+      return res.status(400).json({ error: 'All fields are required' });
+    }
+    const newMsg = new ContactMessage({ name, email, message });
+    await newMsg.save();
+    res.status(201).json({ message: 'Message sent successfully' });
+  } catch (err) {
+    console.error('Contact submit error:', err);
+    res.status(500).json({ error: 'Failed to send message' });
+  }
+});
+
+// Admin: Get all contact messages
+app.get('/api/admin/messages', verifyToken, async (req, res) => {
+  try {
+    const messages = await ContactMessage.find().sort({ createdAt: -1 });
+    res.json(messages);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch messages' });
+  }
+});
+
+// Admin: Reply to message using Brevo
+app.post('/api/admin/messages/:id/reply', verifyToken, async (req, res) => {
+  try {
+    const { replyText } = req.body;
+    const msg = await ContactMessage.findById(req.params.id);
+    if (!msg) return res.status(404).json({ error: 'Message not found' });
+    
+    // Send email using Brevo
+    const emailHtml = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #050505; color: #ffffff; padding: 40px; text-align: left;">
+        <h1 style="font-size: 24px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px;">VORNEXE SUPPORT</h1>
+        
+        <div style="margin-bottom: 30px; line-height: 1.6;">
+          <p>Hi ${msg.name},</p>
+          <p>Thank you for reaching out to us regarding:</p>
+          <blockquote style="border-left: 3px solid #444; padding-left: 15px; color: #aaa; font-style: italic;">"${msg.message}"</blockquote>
+        </div>
+
+        <div style="background-color: #111111; padding: 20px; border: 1px solid #333; margin-bottom: 30px; line-height: 1.6; white-space: pre-wrap;">${replyText}</div>
+        
+        <p style="font-size: 12px; color: #666; text-transform: uppercase; letter-spacing: 1px;">- VORNEXE TEAM</p>
+      </div>
+    `;
+
+    await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'api-key': process.env.BREVO_API_KEY
+      },
+      body: JSON.stringify({
+        sender: { name: "VORNEXE", email: process.env.EMAIL_USER },
+        to: [{ email: msg.email }],
+        subject: "Re: Your Inquiry to VORNEXE",
+        htmlContent: emailHtml
+      })
+    });
+
+    // Update status to Replied
+    msg.status = 'Replied';
+    await msg.save();
+    
+    res.json({ message: 'Reply sent successfully', updatedMessage: msg });
+  } catch (err) {
+    console.error('Reply error:', err);
+    res.status(500).json({ error: 'Failed to send reply' });
   }
 });
 

@@ -31,6 +31,9 @@ const AdminLayout = () => {
           <Link to="/admin/orders" className={pathname.includes('/admin/orders') ? 'active' : ''}>
             ORDERS
           </Link>
+          <Link to="/admin/messages" className={pathname.includes('/admin/messages') ? 'active' : ''}>
+            INQUIRIES
+          </Link>
         </nav>
 
         <div className="admin-footer">
