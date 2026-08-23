@@ -61,6 +61,9 @@ const verifyToken = (req, res, next) => {
     req.user = verified;
     next();
   } catch (err) {
+    if (err.name === 'TokenExpiredError') {
+      return res.status(401).json({ error: 'Session expired. Please log in again.' });
+    }
     res.status(400).json({ error: 'Invalid token.' });
   }
 };
@@ -191,7 +194,7 @@ app.post('/api/collab', async (req, res) => {
 app.post('/api/admin/login', (req, res) => {
   const { password } = req.body;
   if (password === process.env.ADMIN_PASSWORD || (process.env.COLLAB_PASSWORD && password === process.env.COLLAB_PASSWORD)) {
-    const token = jwt.sign({ role: 'admin' }, process.env.JWT_SECRET, { expiresIn: '24h' });
+    const token = jwt.sign({ role: 'admin' }, process.env.JWT_SECRET, { expiresIn: '7d' });
     res.json({ token });
   } else {
     res.status(401).json({ error: 'Invalid password' });
