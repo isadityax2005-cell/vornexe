@@ -139,8 +139,6 @@ const ProductDetail = () => {
                 <details className="accordion-item" open>
                   <summary>FIT & SIZING</summary>
                   <div className="accordion-content">
-                    <p><strong>Model:</strong> 6'1" / 185 cm</p>
-                    <p><strong>Wearing:</strong> {product.size || 'L'}</p>
                     <p className="fit-note"><em>Oversized architectural silhouette. We recommend your usual size for the intended fit.</em></p>
                     <Link to="/size-guide" style={{display: 'inline-block', marginTop: '1rem', textDecoration: 'underline'}}>View Universal Size Guide</Link>
                   </div>
