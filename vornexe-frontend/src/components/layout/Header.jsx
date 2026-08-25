@@ -76,6 +76,7 @@ const Header = () => {
           <Link to="/shop" onClick={() => setIsMenuOpen(false)}>SHOP</Link>
           <Link to="/about" onClick={() => setIsMenuOpen(false)}>ABOUT</Link>
           <Link to="/contact" onClick={() => setIsMenuOpen(false)}>CONTACT</Link>
+          <Link to="/size-guide" onClick={() => setIsMenuOpen(false)}>SIZE GUIDE</Link>
         </nav>
       </div>
     </>

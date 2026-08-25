@@ -105,7 +105,10 @@ const ProductDetail = () => {
               
               <div className="product-detail-meta">
                 <span className="detail-price">{product.price ? `₹${product.price}` : 'Price TBD'}</span>
-                <span className="detail-size">SIZE {product.size || 'TBD'}</span>
+                <span className="detail-size">
+                  SIZE {product.size || 'TBD'}
+                  <Link to="/size-guide" style={{fontSize: '0.8rem', marginLeft: '1rem', textDecoration: 'underline', color: 'var(--text-secondary)'}}>Size Guide</Link>
+                </span>
               </div>
 
               {product.isSoldOut ? (
@@ -145,6 +148,7 @@ const ProductDetail = () => {
                     <p><strong>Model:</strong> 6'1" / 185 cm</p>
                     <p><strong>Wearing:</strong> {product.size || 'L'}</p>
                     <p className="fit-note"><em>Oversized architectural silhouette. We recommend your usual size for the intended fit.</em></p>
+                    <Link to="/size-guide" style={{display: 'inline-block', marginTop: '1rem', textDecoration: 'underline'}}>View Universal Size Guide</Link>
                   </div>
                 </details>
                 <details className="accordion-item">
