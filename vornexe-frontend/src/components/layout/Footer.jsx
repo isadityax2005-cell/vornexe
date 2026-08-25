@@ -16,6 +16,7 @@ const Footer = () => {
             <h3>SUPPORT</h3>
             <Link to="/shipping">Shipping Info</Link>
             <Link to="/returns">Returns Policy</Link>
+            <Link to="/size-guide">Size Guide</Link>
             <a href="mailto:vornexe.official@gmail.com">vornexe.official@gmail.com</a>
           </div>
           <div className="link-group">
