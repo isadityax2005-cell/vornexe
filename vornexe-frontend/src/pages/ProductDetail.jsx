@@ -137,12 +137,6 @@ const ProductDetail = () => {
 
               <div className="product-accordions">
                 <details className="accordion-item" open>
-                  <summary>DESCRIPTION</summary>
-                  <div className="accordion-content">
-                    <p>{product.description}</p>
-                  </div>
-                </details>
-                <details className="accordion-item">
                   <summary>FIT & SIZING</summary>
                   <div className="accordion-content">
                     <p><strong>Model:</strong> 6'1" / 185 cm</p>
