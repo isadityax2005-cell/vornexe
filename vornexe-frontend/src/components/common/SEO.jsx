@@ -4,9 +4,9 @@ const SEO = ({ title, description, image, url, type = 'website', productData }) 
   useEffect(() => {
     // 1. Update Title
     if (title) {
-      document.title = `${title} | Vornexe`;
+      document.title = `${title} | VORNEXE`;
     } else {
-      document.title = 'Vornexe | Contemporary Streetwear Archive';
+      document.title = 'VORNEXE';
     }
 
     // 2. Update standard meta description
@@ -91,7 +91,7 @@ const SEO = ({ title, description, image, url, type = 'website', productData }) 
     // Cleanup function to reset default title when component unmounts
     // Optional depending on SPA behavior, but good practice
     return () => {
-      document.title = 'Vornexe | Contemporary Streetwear Archive';
+      document.title = 'VORNEXE';
     };
   }, [title, description, image, url, type, productData]);
 
