@@ -9,6 +9,8 @@ const Header = () => {
   const { cartItems, toggleCart } = useCart();
   const cartCount = cartItems.length;
 
+  const [showPromo, setShowPromo] = useState(true);
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
@@ -20,7 +22,22 @@ const Header = () => {
 
   return (
     <>
-      <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
+      {showPromo && (
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '30px', background: 'var(--text-primary)', color: 'var(--bg-color)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 60, fontSize: '0.75rem', fontWeight: 'bold', letterSpacing: '0.1em' }}>
+          <span>GET 15% OFF YOUR FIRST ORDER WITH CODE "FIRST15"</span>
+          <button 
+            onClick={() => {
+              navigator.clipboard.writeText("FIRST15");
+              alert("Promo code FIRST15 copied to clipboard!");
+            }} 
+            style={{ background: 'transparent', border: '1px solid var(--bg-color)', color: 'var(--bg-color)', marginLeft: '1rem', padding: '0.1rem 0.5rem', cursor: 'pointer', fontSize: '0.7rem', fontFamily: 'var(--font-display)' }}
+          >
+            COPY
+          </button>
+          <button onClick={() => setShowPromo(false)} style={{ position: 'absolute', right: '10px', background: 'transparent', border: 'none', color: 'var(--bg-color)', cursor: 'pointer', fontSize: '1.2rem', lineHeight: 1 }}>&times;</button>
+        </div>
+      )}
+      <header className={`header ${isScrolled ? 'scrolled' : ''}`} style={{ top: showPromo ? '30px' : '0' }}>
         <div className="header-content">
           
           <div className="header-left">
