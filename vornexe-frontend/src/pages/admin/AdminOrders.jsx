@@ -88,6 +88,11 @@ const AdminOrders = () => {
                 <div>
                   <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '0.5rem' }}>PAYMENT ({order.paymentMethod ? order.paymentMethod.toUpperCase() : 'UPI'})</p>
                   <p style={{ margin: 0 }}>TXN ID: <strong>{order.transactionId || 'N/A'}</strong></p>
+                  {order.discountCode && (
+                    <p style={{ margin: '0.5rem 0 0 0', color: '#00C851' }}>
+                      PROMO: <strong>{order.discountCode}</strong> (Paid: ₹{order.finalPrice})
+                    </p>
+                  )}
                 </div>
                 <div>
                   <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '0.5rem' }}>PRODUCT ID</p>

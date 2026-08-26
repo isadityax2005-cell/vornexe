@@ -11,6 +11,18 @@ const Checkout = () => {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
+  const [promoCode, setPromoCode] = useState('');
+  const [discountApplied, setDiscountApplied] = useState(false);
+  const [promoError, setPromoError] = useState('');
+
+  const getFinalPrice = () => {
+    if (!product) return 0;
+    if (discountApplied) {
+      return Math.round(product.price * 0.85); // 15% off
+    }
+    return product.price;
+  };
+
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -68,10 +80,11 @@ const Checkout = () => {
 
     try {
       // 1. Create order on backend
+      const finalAmount = getFinalPrice();
       const orderRes = await fetch(`${import.meta.env.VITE_API_URL}/api/payment/create-order`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: product.price })
+        body: JSON.stringify({ amount: finalAmount })
       });
       const orderData = await orderRes.json();
 
@@ -105,7 +118,9 @@ const Checkout = () => {
                 paymentMethod: 'Razorpay',
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_order_id: response.razorpay_order_id,
-                razorpay_signature: response.razorpay_signature
+                razorpay_signature: response.razorpay_signature,
+                discountCode: discountApplied ? 'FIRST15' : '',
+                finalPrice: finalAmount
               })
             });
 
@@ -137,6 +152,17 @@ const Checkout = () => {
       alert("Checkout failed: " + err.message);
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const handleApplyPromo = (e) => {
+    e.preventDefault();
+    if (promoCode.trim().toUpperCase() === 'FIRST15') {
+      setDiscountApplied(true);
+      setPromoError('');
+    } else {
+      setPromoError('Invalid promo code');
+      setDiscountApplied(false);
     }
   };
 
@@ -214,19 +240,45 @@ const Checkout = () => {
                 <p className="summary-price">₹{product.price}</p>
               </div>
             </div>
-            
+            <div className="promo-section">
+              <div className="promo-input-group">
+                <input 
+                  type="text" 
+                  placeholder="Gift card or discount code" 
+                  value={promoCode}
+                  onChange={(e) => setPromoCode(e.target.value)}
+                  disabled={discountApplied}
+                />
+                <button 
+                  type="button" 
+                  onClick={handleApplyPromo}
+                  disabled={discountApplied || !promoCode.trim()}
+                >
+                  Apply
+                </button>
+              </div>
+              {promoError && <p className="promo-error">{promoError}</p>}
+              {discountApplied && <p className="promo-success">FIRST15 applied! (15% OFF)</p>}
+            </div>
+
             <div className="summary-totals">
               <div className="total-row">
                 <span>SUBTOTAL</span>
                 <span>₹{product.price}</span>
               </div>
+              {discountApplied && (
+                <div className="total-row discount">
+                  <span>DISCOUNT (FIRST15)</span>
+                  <span>-₹{product.price - getFinalPrice()}</span>
+                </div>
+              )}
               <div className="total-row">
                 <span>SHIPPING</span>
                 <span>FREE</span>
               </div>
               <div className="total-row grand-total">
                 <span>TOTAL</span>
-                <span>₹{product.price}</span>
+                <span>₹{getFinalPrice()}</span>
               </div>
             </div>
           </div>

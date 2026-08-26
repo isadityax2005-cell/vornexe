@@ -14,6 +14,8 @@ const orderSchema = new mongoose.Schema({
   paymentMethod: { type: String, required: true },
   transactionId: { type: String },
   status: { type: String, default: 'Pending Verification' },
+  discountCode: { type: String, default: '' },
+  finalPrice: { type: Number },
   createdAt: { type: Date, default: Date.now }
 });
 

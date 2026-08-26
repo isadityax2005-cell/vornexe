@@ -306,7 +306,7 @@ app.get('/api/orders', verifyToken, async (req, res) => {
 // Create a new order
 app.post('/api/orders', async (req, res) => {
   try {
-    const { productId, shippingDetails, paymentMethod, transactionId, razorpay_payment_id, razorpay_order_id, razorpay_signature } = req.body;
+    const { productId, shippingDetails, paymentMethod, transactionId, razorpay_payment_id, razorpay_order_id, razorpay_signature, discountCode, finalPrice } = req.body;
 
     if (paymentMethod === 'Razorpay') {
       const generated_signature = crypto.createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
@@ -323,7 +323,9 @@ app.post('/api/orders', async (req, res) => {
       shippingDetails,
       paymentMethod,
       transactionId: paymentMethod === 'Razorpay' ? razorpay_payment_id : transactionId,
-      status: paymentMethod === 'Razorpay' ? 'Paid & Verified' : 'Pending Verification'
+      status: paymentMethod === 'Razorpay' ? 'Paid & Verified' : 'Pending Verification',
+      discountCode: discountCode || '',
+      finalPrice: finalPrice || null
     });
 
     const savedOrder = await newOrder.save();
