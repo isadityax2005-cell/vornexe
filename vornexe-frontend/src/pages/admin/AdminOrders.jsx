@@ -31,6 +31,32 @@ const AdminOrders = () => {
     fetchOrders();
   }, []);
 
+  const handleMarkShipped = async (orderId) => {
+    const trackingNumber = prompt("Enter Tracking Number:");
+    if (trackingNumber === null) return;
+    const trackingLink = prompt("Enter Tracking Link (optional):");
+    
+    try {
+      const token = localStorage.getItem('vornexe_admin_token');
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/orders/${orderId}/ship`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ trackingNumber, trackingLink })
+      });
+      if (res.ok) {
+        alert("Order marked as shipped!");
+        window.location.reload();
+      } else {
+        alert("Failed to update shipping");
+      }
+    } catch (err) {
+      alert("Error: " + err.message);
+    }
+  };
+
   if (loading) {
     return <div style={{ padding: '2rem' }}>Loading orders...</div>;
   }
@@ -60,17 +86,17 @@ const AdminOrders = () => {
             <div key={order.id || order._id} style={{ 
               padding: '2rem', 
               backgroundColor: '#0a0a0a',
-              border: '1px solid var(--border-color)'
+              border: `1px solid ${order.isShipped ? '#00C851' : 'var(--border-color)'}`
             }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
                 <h3 style={{ margin: 0 }}>ORDER #{(order.id || order._id || 'UNKNOWN').slice(0,8).toUpperCase()}</h3>
                 <span style={{ 
                   padding: '0.25rem 0.75rem', 
-                  border: '1px solid var(--text-secondary)', 
-                  color: 'var(--text-secondary)',
+                  border: `1px solid ${order.isShipped ? '#00C851' : 'var(--text-secondary)'}`, 
+                  color: order.isShipped ? '#00C851' : 'var(--text-secondary)',
                   fontSize: '0.8rem'
                 }}>
-                  {order.status || 'Pending'}
+                  {order.isShipped ? 'SHIPPED' : (order.status || 'Pending')}
                 </span>
               </div>
               
@@ -97,6 +123,23 @@ const AdminOrders = () => {
                 <div>
                   <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '0.5rem' }}>PRODUCT ID</p>
                   <p style={{ margin: 0 }}>{order.productId || 'N/A'}</p>
+                </div>
+                
+                <div style={{ gridColumn: '1 / -1', borderTop: '1px solid #222', paddingTop: '1rem', marginTop: '1rem' }}>
+                  {order.isShipped ? (
+                    <div>
+                      <p style={{ color: '#00C851', marginBottom: '0.5rem' }}>✓ SHIPPED</p>
+                      <p style={{ margin: 0 }}>Tracking: <strong>{order.trackingNumber}</strong></p>
+                      {order.trackingLink && <a href={order.trackingLink} target="_blank" rel="noreferrer" style={{ color: 'var(--text-primary)', textDecoration: 'underline', fontSize: '0.9rem' }}>Track Link</a>}
+                    </div>
+                  ) : (
+                    <button 
+                      onClick={() => handleMarkShipped(order.id || order._id)}
+                      style={{ padding: '0.5rem 1rem', background: 'var(--text-primary)', color: 'var(--bg-color)', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-display)' }}
+                    >
+                      MARK AS SHIPPED
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

@@ -6,6 +6,8 @@ const productSchema = new mongoose.Schema({
   price: { type: Number, required: false },
   size: { type: String, required: false },
   isSoldOut: { type: Boolean, default: false },
+  reservedUntil: { type: Date, default: null },
+  reservationToken: { type: String, default: null },
   imageUrls: [{ type: String }],
   createdAt: { type: Date, default: Date.now }
 });

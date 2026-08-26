@@ -120,15 +120,21 @@ const ProductDetail = () => {
               <div className="action-buttons">
                 <button 
                   className="add-to-cart-btn" 
-                  disabled={product.isSoldOut || isInCart}
+                  disabled={product.isSoldOut || isInCart || product.isReserved}
                   onClick={() => addToCart(product)}
                 >
-                  {product.isSoldOut ? 'UNAVAILABLE' : isInCart ? 'ADDED TO BAG' : 'ADD TO BAG'}
+                  {product.isSoldOut ? 'UNAVAILABLE' : product.isReserved ? 'RESERVED' : isInCart ? 'ADDED TO BAG' : 'ADD TO BAG'}
                 </button>
                 {!product.isSoldOut && (
                   <button 
                     className="buy-now-btn" 
-                    onClick={() => navigate(`/checkout/${product.id}`)}
+                    disabled={product.isReserved}
+                    onClick={async () => {
+                      if (!isInCart) {
+                        await addToCart(product);
+                      }
+                      navigate(`/checkout/${product.id}`);
+                    }}
                   >
                     BUY NOW
                   </button>

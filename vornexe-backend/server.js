@@ -221,9 +221,61 @@ app.post('/api/payment/create-order', async (req, res) => {
 app.get('/api/products', async (req, res) => {
   try {
     const products = await Product.find().sort({ createdAt: -1 });
-    res.json(products);
+    const now = new Date();
+    // Map products to include isReserved flag based on reservedUntil
+    const mappedProducts = products.map(p => {
+      const isReserved = p.reservedUntil && p.reservedUntil > now;
+      return {
+        ...p.toJSON(),
+        isReserved: !!isReserved
+      };
+    });
+    res.json(mappedProducts);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch products' });
+  }
+});
+
+// Reserve a product for 7 minutes
+app.post('/api/products/:id/reserve', async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    if (!product) return res.status(404).json({ error: 'Product not found' });
+    if (product.isSoldOut) return res.status(400).json({ error: 'Product is already sold out' });
+    
+    const now = new Date();
+    if (product.reservedUntil && product.reservedUntil > now) {
+      return res.status(400).json({ error: 'Product is currently reserved by another user' });
+    }
+
+    // Generate random token and set 7 minute expiration
+    const reservationToken = crypto.randomBytes(16).toString('hex');
+    const reservedUntil = new Date(now.getTime() + 7 * 60 * 1000); // 7 mins
+
+    product.reservedUntil = reservedUntil;
+    product.reservationToken = reservationToken;
+    await product.save();
+
+    res.json({ success: true, reservationToken, reservedUntil });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to reserve product' });
+  }
+});
+
+// Release a product reservation early
+app.post('/api/products/:id/release', async (req, res) => {
+  try {
+    const { reservationToken } = req.body;
+    const product = await Product.findById(req.params.id);
+    
+    if (product && product.reservationToken === reservationToken) {
+      product.reservedUntil = null;
+      product.reservationToken = null;
+      await product.save();
+    }
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to release product' });
   }
 });
 
@@ -293,6 +345,57 @@ app.delete('/api/products/:id', verifyToken, async (req, res) => {
   }
 });
 
+// Ship an order (Protected)
+app.put('/api/orders/:id/ship', verifyToken, async (req, res) => {
+  try {
+    const { trackingNumber, trackingLink } = req.body;
+    const order = await Order.findById(req.params.id);
+    if (!order) return res.status(404).json({ error: 'Order not found' });
+
+    order.isShipped = true;
+    order.trackingNumber = trackingNumber || '';
+    order.trackingLink = trackingLink || '';
+    order.status = 'Shipped';
+    
+    await order.save();
+
+    // Trigger Brevo Email (Optional: Don't await to avoid blocking)
+    if (order.shippingDetails?.email && process.env.BREVO_API_KEY) {
+      const emailHtml = `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #0a0a0a; color: #ffffff;">
+          <h1 style="color: #ffffff; text-align: center; font-family: monospace; letter-spacing: 2px;">VORNEXE</h1>
+          <h2 style="text-align: center; border-bottom: 1px solid #333; padding-bottom: 20px;">YOUR ORDER HAS SHIPPED</h2>
+          <p>Hi ${order.shippingDetails.fullName},</p>
+          <p>Your 1-of-1 VORNEXE piece is on the way!</p>
+          <div style="background-color: #1a1a1a; padding: 20px; margin: 20px 0; border-left: 4px solid #ffffff;">
+            <p style="margin: 0;"><strong>Tracking Number:</strong> ${trackingNumber}</p>
+            ${trackingLink ? `<p style="margin: 10px 0 0 0;"><a href="${trackingLink}" style="color: #ffffff; text-decoration: underline;">Track your package here</a></p>` : ''}
+          </div>
+          <p>Thank you for supporting the archive.</p>
+        </div>
+      `;
+
+      fetch('https://api.brevo.com/v3/smtp/email', {
+        method: 'POST',
+        headers: {
+          'api-key': process.env.BREVO_API_KEY,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          sender: { name: 'VORNEXE Archive', email: 'vornexe.official@gmail.com' },
+          to: [{ email: order.shippingDetails.email }],
+          subject: 'Your VORNEXE Order Has Shipped',
+          htmlContent: emailHtml
+        })
+      }).catch(err => console.error("Failed to send shipping email:", err));
+    }
+
+    res.json(order);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to ship order' });
+  }
+});
+
 // Get all orders (Protected)
 app.get('/api/orders', verifyToken, async (req, res) => {
   try {
@@ -306,8 +409,19 @@ app.get('/api/orders', verifyToken, async (req, res) => {
 // Create a new order
 app.post('/api/orders', async (req, res) => {
   try {
-    const { productId, shippingDetails, paymentMethod, transactionId, razorpay_payment_id, razorpay_order_id, razorpay_signature, discountCode, finalPrice } = req.body;
+    const { productId, shippingDetails, paymentMethod, transactionId, razorpay_payment_id, razorpay_order_id, razorpay_signature, discountCode, finalPrice, reservationToken } = req.body;
 
+    const productCheck = await Product.findById(productId);
+    if (!productCheck) return res.status(404).json({ error: 'Product not found' });
+    if (productCheck.isSoldOut) return res.status(400).json({ error: 'Product is sold out' });
+    
+    // Check if reserved by someone else
+    const now = new Date();
+    if (productCheck.reservedUntil && productCheck.reservedUntil > now) {
+      if (productCheck.reservationToken !== reservationToken) {
+        return res.status(400).json({ error: 'Product is currently reserved by another user' });
+      }
+    }
     if (paymentMethod === 'Razorpay') {
       const generated_signature = crypto.createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
         .update(razorpay_order_id + "|" + razorpay_payment_id)
@@ -331,7 +445,45 @@ app.post('/api/orders', async (req, res) => {
     const savedOrder = await newOrder.save();
 
     // Mark product as sold out
-    await Product.findByIdAndUpdate(productId, { isSoldOut: true });
+    const product = await Product.findByIdAndUpdate(productId, { isSoldOut: true });
+
+    // Send Receipt Email via Brevo
+    if (shippingDetails?.email && process.env.BREVO_API_KEY) {
+      const emailHtml = `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #0a0a0a; color: #ffffff;">
+          <h1 style="color: #ffffff; text-align: center; font-family: monospace; letter-spacing: 2px;">VORNEXE</h1>
+          <h2 style="text-align: center; border-bottom: 1px solid #333; padding-bottom: 20px;">ORDER CONFIRMATION</h2>
+          <p>Hi ${shippingDetails.fullName},</p>
+          <p>Thank you for securing this 1-of-1 piece from the archive.</p>
+          <div style="background-color: #1a1a1a; padding: 20px; margin: 20px 0; border-left: 4px solid #ffffff;">
+            <h3 style="margin-top: 0; color: #fff;">Order Details</h3>
+            <p style="margin: 5px 0;"><strong>Product:</strong> ${product ? product.name : productId}</p>
+            <p style="margin: 5px 0;"><strong>Paid:</strong> ₹${finalPrice || (product ? product.price : 'N/A')}</p>
+            ${discountCode ? `<p style="margin: 5px 0; color: #00C851;"><strong>Promo Applied:</strong> ${discountCode}</p>` : ''}
+            <h3 style="color: #fff; margin-bottom: 5px;">Shipping To:</h3>
+            <p style="margin: 0; color: #aaa;">
+              ${shippingDetails.address}<br>
+              ${shippingDetails.city}, ${shippingDetails.state} ${shippingDetails.pinCode}
+            </p>
+          </div>
+          <p>We will email you again once your order has shipped.</p>
+        </div>
+      `;
+
+      fetch('https://api.brevo.com/v3/smtp/email', {
+        method: 'POST',
+        headers: {
+          'api-key': process.env.BREVO_API_KEY,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          sender: { name: 'VORNEXE Archive', email: 'vornexe.official@gmail.com' },
+          to: [{ email: shippingDetails.email }],
+          subject: 'Your VORNEXE Order Confirmation',
+          htmlContent: emailHtml
+        })
+      }).catch(err => console.error("Failed to send receipt email:", err));
+    }
 
     res.status(201).json(savedOrder);
   } catch (err) {

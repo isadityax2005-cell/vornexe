@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import Header from '../components/layout/Header';
+import { useCart } from '../context/CartContext';
 import './Checkout.css';
 
 const Checkout = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { cartItems, removeFromCart } = useCart();
+  const cartItem = cartItems.find(item => item.id === id);
+  const [timeLeft, setTimeLeft] = useState(null);
+
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -52,6 +57,28 @@ const Checkout = () => {
     };
     fetchProduct();
   }, [id]);
+
+  useEffect(() => {
+    if (!cartItem?.reservedUntil) return;
+    
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      const end = new Date(cartItem.reservedUntil).getTime();
+      const distance = end - now;
+
+      if (distance < 0) {
+        clearInterval(interval);
+        setTimeLeft('0:00');
+        alert("Your 7-minute reservation has expired. You can still try to check out, but this 1-of-1 item is now available for others to purchase.");
+        removeFromCart(id);
+      } else {
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        setTimeLeft(`${minutes}:${seconds < 10 ? '0' : ''}${seconds}`);
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [cartItem, id, removeFromCart]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -120,7 +147,8 @@ const Checkout = () => {
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_signature: response.razorpay_signature,
                 discountCode: discountApplied ? 'FIRST15' : '',
-                finalPrice: finalAmount
+                finalPrice: finalAmount,
+                reservationToken: cartItem ? cartItem.reservationToken : null
               })
             });
 
@@ -178,6 +206,11 @@ const Checkout = () => {
     <>
       <Header />
       <main className="checkout-page">
+        {timeLeft && timeLeft !== '0:00' && (
+          <div className="reservation-banner" style={{ background: '#00C851', color: '#000', textAlign: 'center', padding: '0.5rem', fontWeight: 'bold', letterSpacing: '0.1em', marginBottom: '2rem' }}>
+            ITEM RESERVED FOR {timeLeft}
+          </div>
+        )}
         <div className="checkout-container">
           <div className="checkout-form-section">
             <h1>SECURE CHECKOUT</h1>

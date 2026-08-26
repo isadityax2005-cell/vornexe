@@ -21,15 +21,44 @@ export const CartProvider = ({ children }) => {
     localStorage.setItem('vornexe_cart', JSON.stringify(cartItems));
   }, [cartItems]);
 
-  const addToCart = (product) => {
-    // Since items are 1-of-1, we only add if it's not already in there
-    if (!cartItems.find(item => item.id === product.id)) {
-      setCartItems([...cartItems, product]);
+  const addToCart = async (product) => {
+    if (cartItems.find(item => item.id === product.id)) {
+      setIsCartOpen(true);
+      return;
     }
-    setIsCartOpen(true); // Auto-open cart when adding
+
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const res = await fetch(`${apiUrl}/api/products/${product.id}/reserve`, {
+        method: 'POST'
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+
+      // Successfully reserved, store token
+      const reservedProduct = {
+        ...product,
+        reservationToken: data.reservationToken,
+        reservedUntil: data.reservedUntil
+      };
+      
+      setCartItems([...cartItems, reservedProduct]);
+      setIsCartOpen(true);
+    } catch (err) {
+      alert("Cannot add to bag: " + err.message);
+    }
   };
 
-  const removeFromCart = (productId) => {
+  const removeFromCart = async (productId) => {
+    const item = cartItems.find(i => i.id === productId);
+    if (item && item.reservationToken) {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      fetch(`${apiUrl}/api/products/${productId}/release`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ reservationToken: item.reservationToken })
+      }).catch(console.error);
+    }
     setCartItems(cartItems.filter(item => item.id !== productId));
   };
 

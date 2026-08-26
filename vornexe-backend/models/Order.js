@@ -16,6 +16,9 @@ const orderSchema = new mongoose.Schema({
   status: { type: String, default: 'Pending Verification' },
   discountCode: { type: String, default: '' },
   finalPrice: { type: Number },
+  isShipped: { type: Boolean, default: false },
+  trackingNumber: { type: String },
+  trackingLink: { type: String },
   createdAt: { type: Date, default: Date.now }
 });
 
