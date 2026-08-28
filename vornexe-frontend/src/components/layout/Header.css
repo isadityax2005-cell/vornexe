@@ -1,3 +1,76 @@
+.promo-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 30px;
+  background: var(--text-primary);
+  color: var(--bg-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 60;
+  font-size: 0.75rem;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  padding: 0 40px 0 10px; /* Space for close button on right */
+  box-sizing: border-box; /* Fix width overflow */
+}
+
+.promo-text-short {
+  display: none;
+}
+
+.promo-copy-btn {
+  background: transparent;
+  border: 1px solid var(--bg-color);
+  color: var(--bg-color);
+  margin-left: 1rem;
+  padding: 0.1rem 0.5rem;
+  cursor: pointer;
+  font-size: 0.7rem;
+  font-family: var(--font-display);
+}
+
+.promo-close-btn {
+  position: absolute;
+  right: 10px;
+  background: transparent;
+  border: none;
+  color: var(--bg-color);
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+@media (max-width: 768px) {
+  .promo-text-full {
+    display: none;
+  }
+  .promo-text-short {
+    display: inline;
+    font-size: 0.65rem;
+  }
+  .promo-copy-btn {
+    margin-left: 0.5rem;
+    font-size: 0.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .promo-banner {
+    padding: 0 35px 0 5px; /* Ensure space for close button */
+  }
+  .promo-text-short {
+    font-size: 0.55rem;
+    letter-spacing: 0.05em;
+  }
+  .promo-copy-btn {
+    padding: 0.1rem 0.3rem;
+    font-size: 0.55rem;
+  }
+}
+
 .header {
   position: fixed;
   top: 0;
