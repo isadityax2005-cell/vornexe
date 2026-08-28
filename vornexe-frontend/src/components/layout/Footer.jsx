@@ -1,23 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Footer.css';
 
 const Footer = () => {
+  const [showPromo, setShowPromo] = useState(true);
+
   return (
     <footer className="footer-section">
-      <div className="footer-promo">
-        <p>GET 15% OFF YOUR FIRST ORDER WITH CODE "FIRST15"
-          <button 
-            className="footer-promo-copy-btn"
-            onClick={() => {
-              navigator.clipboard.writeText("FIRST15");
-              alert("Promo code FIRST15 copied to clipboard!");
-            }} 
-          >
-            COPY
-          </button>
-        </p>
-      </div>
+      {showPromo && (
+        <div className="footer-promo">
+          <p>GET 15% OFF YOUR FIRST ORDER WITH CODE "FIRST15"
+            <button 
+              className="footer-promo-copy-btn"
+              onClick={() => {
+                navigator.clipboard.writeText("FIRST15");
+                alert("Promo code FIRST15 copied to clipboard!");
+              }} 
+            >
+              COPY
+            </button>
+          </p>
+          <button className="footer-promo-close-btn" onClick={() => setShowPromo(false)}>&times;</button>
+        </div>
+      )}
       <div className="footer-content">
         <div className="footer-logo">
           <h2>VORNEXE</h2>
