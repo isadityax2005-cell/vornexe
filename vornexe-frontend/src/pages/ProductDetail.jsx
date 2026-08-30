@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import Header from '../components/layout/Header';
 import SEO from '../components/common/SEO';
 import { useCart } from '../context/CartContext';
+import CustomerReviews from '../components/layout/CustomerReviews';
 import './ProductDetail.css';
 
 const ProductDetail = () => {
@@ -141,6 +142,12 @@ const ProductDetail = () => {
                 )}
               </div>
 
+              <div className="trust-badges" style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem', marginBottom: '2rem', fontSize: '0.75rem', fontFamily: 'var(--font-primary)', color: 'var(--text-secondary)', letterSpacing: '0.05em' }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}><span style={{ color: '#00C851' }}>✓</span> 100% Authentic</span>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}><span style={{ color: '#00C851' }}>✓</span> Secure Razorpay Checkout</span>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}><span style={{ color: '#00C851' }}>✓</span> Ships in 48 Hrs</span>
+              </div>
+
               <div className="product-accordions">
                 <details className="accordion-item" open>
                   <summary>FIT & SIZING</summary>
@@ -189,6 +196,8 @@ const ProductDetail = () => {
             </div>
           </div>
         )}
+
+        <CustomerReviews />
       </main>
     </>
   );
