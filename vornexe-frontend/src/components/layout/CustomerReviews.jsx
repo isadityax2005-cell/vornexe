@@ -15,7 +15,7 @@ const reviews = [
     name: '@streetwear.in',
     text: "Arrived exactly as described. Premium packaging. 10/10.",
     rating: 5,
-    imageUrl: "https://pikaso.cdnpk.net/private/production/5305019201/render.jpg?token=exp=1788480000~hmac=9cecd1f6ba794ad15683c901f09cf6c0283442fb5becc33b0a1772e6861ff4df",
+    imageUrl: "https://pikaso.cdnpk.net/private/production/5305125527/render.jpg?token=exp=1788480000~hmac=891bb771b112efa6f653885cb563e2453997770bea5f0351ae0c6ed71d74b57b",
     date: "1 Week Ago"
   },
   {
@@ -23,7 +23,7 @@ const reviews = [
     name: '@rahul_vsn',
     text: "Cop it before it sells out. Real 1-of-1 archive feel.",
     rating: 5,
-    imageUrl: "https://pikaso.cdnpk.net/private/production/5305019047/render.jpg?token=exp=1788480000~hmac=92a45622dbd7f15337184500899a9b3d6ec11606443401605faa7c3069537414",
+    imageUrl: "https://pikaso.cdnpk.net/private/production/5305125512/render.jpg?token=exp=1788480000~hmac=b204a361e41cbc4664f5aa0e92d947f8f1b3a52789ad4d501e679eb3aa33dfd5",
     date: "2 Weeks Ago"
   }
 ];
