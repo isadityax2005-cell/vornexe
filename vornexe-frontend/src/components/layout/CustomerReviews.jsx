@@ -25,6 +25,30 @@ const reviews = [
     rating: 5,
     imageUrl: "https://pikaso.cdnpk.net/private/production/5305184738/render.jpg?token=exp=1788480000~hmac=8501272fbd8f4b02dea629686f4e009a0e10e5aa55fd2fecf10f95168a2068d5",
     date: "2 Weeks Ago"
+  },
+  {
+    id: 4,
+    name: '@archive.fits',
+    text: "The details on this piece are insane. Perfect crop.",
+    rating: 5,
+    imageUrl: "/review4.jpg",
+    date: "3 Weeks Ago"
+  },
+  {
+    id: 5,
+    name: '@mumbai_drip',
+    text: "Best drop of the year. Quality is unmatched.",
+    rating: 5,
+    imageUrl: "/review5.jpg",
+    date: "1 Month Ago"
+  },
+  {
+    id: 6,
+    name: '@y2k.india',
+    text: "Obsessed with the texture and fit. Def buying more.",
+    rating: 5,
+    imageUrl: "/review6.jpg",
+    date: "1 Month Ago"
   }
 ];
 
