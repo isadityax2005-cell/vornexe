@@ -206,5 +206,101 @@ export const reviews = [
     "rating": 5,
     "imageUrl": "/lookbook/lookbook_20.jpg",
     "date": "28 Days Ago"
+  },
+  {
+    "id": 27,
+    "name": "@slowfashion.in71",
+    "text": "Y2K vibes are immaculate.",
+    "rating": 5,
+    "imageUrl": "/thrift/thrift_1.jpg",
+    "date": "14 Days Ago"
+  },
+  {
+    "id": 28,
+    "name": "@thrifted.grails46",
+    "text": "Vintage quality is unmatched.",
+    "rating": 5,
+    "imageUrl": "/thrift/thrift_2.jpg",
+    "date": "26 Days Ago"
+  },
+  {
+    "id": 29,
+    "name": "@retro.archive.in45",
+    "text": "Slow fashion is the way.",
+    "rating": 5,
+    "imageUrl": "/thrift/thrift_3.jpg",
+    "date": "26 Days Ago"
+  },
+  {
+    "id": 30,
+    "name": "@retro.archive.in95",
+    "text": "Y2K vibes are immaculate.",
+    "rating": 5,
+    "imageUrl": "/thrift/thrift_4.jpg",
+    "date": "20 Days Ago"
+  },
+  {
+    "id": 31,
+    "name": "@vintage_finds_in57",
+    "text": "Best thrift find ever.",
+    "rating": 5,
+    "imageUrl": "/thrift/thrift_5.jpg",
+    "date": "16 Days Ago"
+  },
+  {
+    "id": 32,
+    "name": "@thrift.india80",
+    "text": "Y2K vibes are immaculate.",
+    "rating": 5,
+    "imageUrl": "/thrift/thrift_6.jpg",
+    "date": "23 Days Ago"
+  },
+  {
+    "id": 33,
+    "name": "@retro.archive.in64",
+    "text": "Vintage quality is unmatched.",
+    "rating": 5,
+    "imageUrl": "/thrift/thrift_7.jpg",
+    "date": "15 Days Ago"
+  },
+  {
+    "id": 34,
+    "name": "@delhi.thrift80",
+    "text": "The thrift gods blessed me today.",
+    "rating": 5,
+    "imageUrl": "/thrift/thrift_8.jpg",
+    "date": "25 Days Ago"
+  },
+  {
+    "id": 35,
+    "name": "@delhi.thrift90",
+    "text": "Perfect oversized fit.",
+    "rating": 5,
+    "imageUrl": "/thrift/thrift_9.jpg",
+    "date": "30 Days Ago"
+  },
+  {
+    "id": 36,
+    "name": "@archive.india73",
+    "text": "Y2K vibes are immaculate.",
+    "rating": 5,
+    "imageUrl": "/thrift/thrift_10.jpg",
+    "date": "30 Days Ago"
+  },
+  {
+    "id": 37,
+    "name": "@y2k.mumbai18",
+    "text": "Perfect oversized fit.",
+    "rating": 5,
+    "imageUrl": "/thrift/thrift_11.jpg",
+    "date": "16 Days Ago"
+  },
+  {
+    "id": 38,
+    "name": "@delhi.thrift8",
+    "text": "The details on this are crazy.",
+    "rating": 5,
+    "imageUrl": "/thrift/thrift_12.jpg",
+    "date": "7 Days Ago"
   }
 ];
