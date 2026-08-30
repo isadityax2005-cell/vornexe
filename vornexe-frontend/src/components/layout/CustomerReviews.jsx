@@ -7,7 +7,7 @@ const reviews = [
     name: '@karan.fits',
     text: "Quality is absolutely insane for the price. Fits perfectly.",
     rating: 5,
-    imageUrl: "https://pikaso.cdnpk.net/private/production/5305184728/render.jpg?token=exp=1788480000~hmac=7a7d0dafd6b74161eb36d18b6acdd89a2a378ef66ad2f4ca5e3411c8f56bac72",
+    imageUrl: "/review1.jpg",
     date: "2 Days Ago"
   },
   {
