@@ -302,5 +302,53 @@ export const reviews = [
     "rating": 5,
     "imageUrl": "/thrift/thrift_12.jpg",
     "date": "7 Days Ago"
+  },
+  {
+    "id": 39,
+    "name": "@carhartt.archive57",
+    "text": "My new favorite Stussy tee!",
+    "rating": 5,
+    "imageUrl": "/brands/brand_1.jpg",
+    "date": "13 Days Ago"
+  },
+  {
+    "id": 40,
+    "name": "@stussy_india98",
+    "text": "This Detroit jacket is perfectly faded.",
+    "rating": 5,
+    "imageUrl": "/brands/brand_2.jpg",
+    "date": "10 Days Ago"
+  },
+  {
+    "id": 41,
+    "name": "@jnco.jeans.fan70",
+    "text": "JNCOs are back and I love it.",
+    "rating": 5,
+    "imageUrl": "/brands/brand_3.jpg",
+    "date": "9 Days Ago"
+  },
+  {
+    "id": 42,
+    "name": "@vintage_archive97",
+    "text": "Vintage Carhartt hits different.",
+    "rating": 5,
+    "imageUrl": "/brands/brand_4.jpg",
+    "date": "7 Days Ago"
+  },
+  {
+    "id": 43,
+    "name": "@streetwear_daily66",
+    "text": "Such a clean Stussy piece.",
+    "rating": 5,
+    "imageUrl": "/brands/brand_5.jpg",
+    "date": "9 Days Ago"
+  },
+  {
+    "id": 44,
+    "name": "@grail.fits33",
+    "text": "Baggy jeans forever.",
+    "rating": 5,
+    "imageUrl": "/brands/brand_6.jpg",
+    "date": "1 Days Ago"
   }
 ];
