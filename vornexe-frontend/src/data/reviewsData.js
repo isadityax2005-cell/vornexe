@@ -350,5 +350,165 @@ export const reviews = [
     "rating": 5,
     "imageUrl": "/brands/brand_6.jpg",
     "date": "1 Days Ago"
+  },
+  {
+    "id": 45,
+    "name": "@aarushidutta_style_93",
+    "text": "Glam streetwear vibes today.",
+    "rating": 5,
+    "imageUrl": "/influencers/inf_1.jpg",
+    "date": "9 Days Ago"
+  },
+  {
+    "id": 46,
+    "name": "@aarushidutta_style_1",
+    "text": "Glam streetwear vibes today.",
+    "rating": 5,
+    "imageUrl": "/influencers/inf_2.jpg",
+    "date": "9 Days Ago"
+  },
+  {
+    "id": 47,
+    "name": "@aarushidutta_style_12",
+    "text": "Glam streetwear vibes today.",
+    "rating": 5,
+    "imageUrl": "/influencers/inf_3.jpg",
+    "date": "6 Days Ago"
+  },
+  {
+    "id": 48,
+    "name": "@aarushidutta_style_0",
+    "text": "Glam streetwear vibes today.",
+    "rating": 5,
+    "imageUrl": "/influencers/inf_4.jpg",
+    "date": "1 Days Ago"
+  },
+  {
+    "id": 49,
+    "name": "@aarushidutta_style_69",
+    "text": "Glam streetwear vibes today.",
+    "rating": 5,
+    "imageUrl": "/influencers/inf_5.jpg",
+    "date": "2 Days Ago"
+  },
+  {
+    "id": 50,
+    "name": "@gayu.fits_24",
+    "text": "Oversized is the only way.",
+    "rating": 5,
+    "imageUrl": "/influencers/inf_6.jpg",
+    "date": "2 Days Ago"
+  },
+  {
+    "id": 51,
+    "name": "@gayu.fits_48",
+    "text": "Oversized is the only way.",
+    "rating": 5,
+    "imageUrl": "/influencers/inf_7.jpg",
+    "date": "2 Days Ago"
+  },
+  {
+    "id": 52,
+    "name": "@gayu.fits_79",
+    "text": "Oversized is the only way.",
+    "rating": 5,
+    "imageUrl": "/influencers/inf_8.jpg",
+    "date": "7 Days Ago"
+  },
+  {
+    "id": 53,
+    "name": "@gayu.fits_16",
+    "text": "Oversized is the only way.",
+    "rating": 5,
+    "imageUrl": "/influencers/inf_9.jpg",
+    "date": "6 Days Ago"
+  },
+  {
+    "id": 54,
+    "name": "@gayu.fits_66",
+    "text": "Oversized is the only way.",
+    "rating": 5,
+    "imageUrl": "/influencers/inf_10.jpg",
+    "date": "5 Days Ago"
+  },
+  {
+    "id": 55,
+    "name": "@siddharth.archive_89",
+    "text": "Avant-garde menswear forever.",
+    "rating": 5,
+    "imageUrl": "/influencers/inf_11.jpg",
+    "date": "3 Days Ago"
+  },
+  {
+    "id": 56,
+    "name": "@siddharth.archive_14",
+    "text": "Avant-garde menswear forever.",
+    "rating": 5,
+    "imageUrl": "/influencers/inf_12.jpg",
+    "date": "9 Days Ago"
+  },
+  {
+    "id": 57,
+    "name": "@siddharth.archive_13",
+    "text": "Avant-garde menswear forever.",
+    "rating": 5,
+    "imageUrl": "/influencers/inf_13.jpg",
+    "date": "1 Days Ago"
+  },
+  {
+    "id": 58,
+    "name": "@siddharth.archive_67",
+    "text": "Avant-garde menswear forever.",
+    "rating": 5,
+    "imageUrl": "/influencers/inf_14.jpg",
+    "date": "6 Days Ago"
+  },
+  {
+    "id": 59,
+    "name": "@siddharth.archive_79",
+    "text": "Avant-garde menswear forever.",
+    "rating": 5,
+    "imageUrl": "/influencers/inf_15.jpg",
+    "date": "7 Days Ago"
+  },
+  {
+    "id": 60,
+    "name": "@komal.street_3",
+    "text": "Couture meets the streets.",
+    "rating": 5,
+    "imageUrl": "/influencers/inf_16.jpg",
+    "date": "2 Days Ago"
+  },
+  {
+    "id": 61,
+    "name": "@komal.street_67",
+    "text": "Couture meets the streets.",
+    "rating": 5,
+    "imageUrl": "/influencers/inf_17.jpg",
+    "date": "4 Days Ago"
+  },
+  {
+    "id": 62,
+    "name": "@komal.street_5",
+    "text": "Couture meets the streets.",
+    "rating": 5,
+    "imageUrl": "/influencers/inf_18.jpg",
+    "date": "1 Days Ago"
+  },
+  {
+    "id": 63,
+    "name": "@komal.street_57",
+    "text": "Couture meets the streets.",
+    "rating": 5,
+    "imageUrl": "/influencers/inf_19.jpg",
+    "date": "10 Days Ago"
+  },
+  {
+    "id": 64,
+    "name": "@komal.street_25",
+    "text": "Couture meets the streets.",
+    "rating": 5,
+    "imageUrl": "/influencers/inf_20.jpg",
+    "date": "4 Days Ago"
   }
 ];
