@@ -3,7 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import Header from '../components/layout/Header';
 import SEO from '../components/common/SEO';
 import { useCart } from '../context/CartContext';
-import CustomerReviews from '../components/layout/CustomerReviews';
+
 import './ProductDetail.css';
 
 const ProductDetail = () => {
@@ -197,7 +197,7 @@ const ProductDetail = () => {
           </div>
         )}
 
-        <CustomerReviews />
+
       </main>
     </>
   );

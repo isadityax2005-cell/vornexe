@@ -3,7 +3,7 @@ import Header from '../components/layout/Header';
 import SEO from '../components/common/SEO';
 import HeroSection from '../components/layout/HeroSection';
 import FeaturedProducts from '../components/layout/FeaturedProducts';
-import CustomerReviews from '../components/layout/CustomerReviews';
+
 import CollabSection from '../components/layout/CollabSection';
 import Footer from '../components/layout/Footer';
 
@@ -15,7 +15,7 @@ const Home = () => {
       <main>
         <HeroSection />
         <FeaturedProducts />
-        <CustomerReviews />
+
         <CollabSection />
       </main>
       <Footer />
